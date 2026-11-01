@@ -13,8 +13,24 @@
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="description" content="EcoAstuce : des conseils simples pour économiser, mieux s'organiser et adopter des habitudes plus durables.">
-<title>EcoAstuce — Des idées utiles au quotidien</title>
+<meta name="description" content="Découvrez 30 articles pratiques sur la maison, le budget, les études, la cuisine, l’environnement et les outils numériques avec EcoAstuce.">
+<meta name="theme-color" content="#091827">
+<link rel="canonical" href="https://ecoastuce-studio.github.io/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="EcoAstuce — Des idées utiles au quotidien">
+<meta property="og:description" content="Des conseils simples et pratiques pour mieux s’organiser, économiser et adopter des habitudes plus durables.">
+<meta property="og:url" content="https://ecoastuce-studio.github.io/">
+<title>EcoAstuce — Conseils pratiques pour le quotidien</title>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "EcoAstuce",
+  "url": "https://ecoastuce-studio.github.io/",
+  "inLanguage": "fr-FR",
+  "description": "Des conseils pratiques pour le quotidien : maison, budget, études, cuisine, environnement et technologie."
+}
+</script>
 <style>
 :root{--ink:#102334;--muted:#53677a;--green:#168653;--mint:#66edaa;--paper:#f4f8fb;--line:#dce6ec;--white:#fff}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--paper);line-height:1.55}
@@ -78,7 +94,7 @@ dialog{width:min(720px,92vw);max-height:86vh;overflow:auto;border:0;border-radiu
     </div>
   </section>
   <section id="articles">
-    <div class="section-heading"><h2>✨ Articles à découvrir</h2><span class="subtle" id="resultCount"></span></div>
+    <div class="section-heading"><h2>✨ Articles à découvrir</h2><span class="subtle" id="resultCount" aria-live="polite"></span></div>
     <div class="grid" id="articleGrid"></div>
   </section>
   <aside class="notice">
@@ -91,9 +107,9 @@ dialog{width:min(720px,92vw);max-height:86vh;overflow:auto;border:0;border-radiu
     <div class="foot">
       <div><a class="brand" href="#">🍃 Eco<span>Astuce</span></a><p>Un petit site indépendant pour partager des idées pratiques et gratuites.</p></div>
       <div><h3>Navigation</h3><a href="#">Accueil</a><a href="#articles">Articles</a><a href="#categories">Catégories</a></div>
-      <div><h3>À propos</h3><p>Ce prototype ne vend rien et ne collecte aucune donnée personnelle.</p><a href="#apropos">Informations sur le site</a></div>
+      <div><h3>À propos</h3><p>EcoAstuce partage des conseils pratiques gratuits. Les services Google intégrés au site peuvent utiliser des technologies de mesure d’audience ou de publicité selon leur configuration.</p><a href="#apropos">Informations sur le site</a></div>
     </div>
-    <div class="disclaimer">Prototype gratuit — les articles sont des exemples à vérifier et enrichir avant publication. Aucun revenu publicitaire n'est activé. © <span id="year"></span> EcoAstuce.</div>
+    <div class="disclaimer">EcoAstuce propose des informations générales à titre pratique. Vérifie les recommandations importantes selon ta situation et consulte les sources officielles lorsque nécessaire. Les annonces ne seront diffusées que si Google approuve le site. © <span id="year"></span> EcoAstuce.</div>
   </div>
 </footer>
 <dialog id="articleDialog" aria-labelledby="modalTitle">
@@ -261,7 +277,7 @@ const grid=document.getElementById("articleGrid");
 const search=document.getElementById("search");
 function render(){
  const term=search.value.trim().toLocaleLowerCase("fr");
- const visible=articles.filter(a=>(activeCategory==="Toutes"||a.category===activeCategory)&&(`${a.title} ${a.description} ${a.category}`).toLocaleLowerCase("fr").includes(term));
+ const visible=articles.filter(a=>(activeCategory==="Toutes"||a.category===activeCategory)&&(`${a.title} ${a.description} ${a.category} ${a.body.join(" ")}`).toLocaleLowerCase("fr").includes(term)).sort((a,b)=>b.id-a.id);
  document.getElementById("resultCount").textContent=`${visible.length} article${visible.length>1?"s":""}`;
  grid.innerHTML="";
  if(!visible.length){grid.innerHTML='<div class="empty">Aucun article trouvé. Essaie un autre mot ou une autre catégorie.</div>';return;}
@@ -284,7 +300,6 @@ function openArticle(id){
  const img=document.createElement("img");img.className="hero-img";img.src=a.image;img.alt="";img.onerror=()=>img.style.display="none";
  content.append(title,img);
  a.body.forEach(t=>{const p=document.createElement("p");p.textContent=t;content.append(p)});
- const note=document.createElement("p");note.className="subtle";note.textContent="Article de démonstration : vérifie les informations et ajoute tes propres sources avant de publier.";content.append(note);
  document.getElementById("articleDialog").showModal();
 }
 document.getElementById("closeDialog").addEventListener("click",()=>document.getElementById("articleDialog").close());
