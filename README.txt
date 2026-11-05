@@ -1,19 +1,22 @@
-EcoAstuce — prototype de site sans vente
+EcoAstuce — site statique (GitHub Pages)
 
-Contenu :
-- index.html : site complet dans un seul fichier
-- Recherche d’articles, filtres par catégorie et lecture dans une fenêtre intégrée
-- Mise en page responsive ordinateur/mobile
-- Aucun compte, paiement, formulaire de collecte ou suivi publicitaire
+Structure
+- index.html : accueil + liste des articles (le tableau `articles` est la source de vérité)
+- articles/ : une page par article (générées)
+- categorie/ : une page par catégorie (générées)
+- og/, pins/, img/ : images de partage, images Pinterest et couvertures (générées)
+- sitemap.xml, robots.txt, ads.txt : référencement et régie publicitaire
+- consent.js : bandeau cookies (publicités et mesure d'audience seulement après accord)
 
-Pour l’utiliser :
-1. Décompresse le ZIP.
-2. Ouvre index.html dans un navigateur.
-3. Pour le publier gratuitement, tu peux étudier GitHub Pages ou Cloudflare Pages avec l’aide d’un adulte de confiance.
+Ajouter un article
+1. Ajoute un objet dans le tableau `articles` de index.html (id unique, category, title,
+   description, image, minutes, body ; "## Titre" dans body = sous-titre ; date:"AAAA-MM-JJ" facultatif).
+   Pour une couverture locale : image:"/img/<categorie>.jpg".
+2. node build-articles.js          (pages, sitemap, liste de secours)
+3. node tools/render-images.js     (cartes de partage et pins ; nécessite Playwright)
+4. Publie les fichiers modifiés (commit + push).
 
-Important :
-- C’est un prototype, pas un site qui génère déjà des revenus.
-- Les photos viennent d’Unsplash et nécessitent une connexion Internet pour s’afficher.
-- Les articles sont des exemples à vérifier, enrichir et sourcer avant une publication publique.
-- Aucun système publicitaire ou d’affiliation n’est activé.
-- Comme tu es mineur, fais-toi accompagner par un parent/tuteur pour la publication, les conditions des plateformes et toute monétisation. Les plateformes publicitaires ont leurs propres règles d’âge, de compte et de paiement.
+Important
+- Les articles sont rédigés avec l'aide d'une IA : relis-les et vérifie les faits avant publication.
+- Les revenus publicitaires dépendent de l'acceptation du compte AdSense (règles d'âge et de paiement :
+  voir les conditions de Google, un parent/tuteur peut être nécessaire).

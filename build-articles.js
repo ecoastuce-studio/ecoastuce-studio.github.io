@@ -74,7 +74,12 @@ if (newSlugs) fs.writeFileSync(INDEX, html);
 
 // --- Helpers ---------------------------------------------------------------
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const bigImage = (u, w = 1200) => u + (u.includes("?") ? "" : `?auto=format&fit=crop&w=${w}&q=80`);
+// Images Unsplash : on ajoute les paramètres de taille ; images locales (/img/...) : inchangées.
+const bigImage = (u, w = 1200) => /^https?:/.test(u) ? u + (u.includes("?") ? "" : `?auto=format&fit=crop&w=${w}&q=80`) : u;
+const absUrl = u => /^https?:/.test(u) ? u : SITE + u;
+const FR_MONTHS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
+const frDate = d => { const [y, m, j] = d.split("-").map(Number); return `${j === 1 ? "1er" : j} ${FR_MONTHS[m - 1]} ${y}`; };
+const renderBody = body => body.map(p => p.startsWith("## ") ? `<h2>${esc(p.slice(3))}</h2>` : `<p>${esc(p)}</p>`).join("\n");
 const thumb = u => bigImage(u, 700);
 const catSlug = c => slugify(c);
 const CATEGORIES = [...new Set(articles.map(a => a.category))]
@@ -91,6 +96,7 @@ function head({ title, description, url, image, type = "website", extra = "" }) 
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="google-adsense-account" content="ca-pub-1800081150235092">
 <title>${esc(title)}</title>
 <meta name="description" content="${esc(description)}">
 <meta name="theme-color" content="#091827">
@@ -121,6 +127,9 @@ const crumbLd = items => ld({
 function articlePage(a) {
   const url = `${SITE}/articles/${a.slug}.html`;
   const img = bigImage(a.image);
+  const og = `${SITE}/og/${a.slug}.jpg`;   // carte de partage (générée par tools/render-images.js)
+  const pin = `${SITE}/pins/${a.slug}.jpg`; // image verticale pour Pinterest
+  const pinUrl = `https://www.pinterest.com/pin/create/button/?url=${encodeURIComponent(url)}&media=${encodeURIComponent(pin)}&description=${encodeURIComponent(a.title + " — " + a.description)}`;
   const cs = catSlug(a.category);
   const sorted = [...articles].sort((x, y) => x.id - y.id);
   const i = sorted.findIndex(x => x.id === a.id);
@@ -132,28 +141,30 @@ function articlePage(a) {
     "@type": "Article",
     headline: a.title,
     description: a.description,
-    image: img,
+    image: [og, absUrl(img)],
     articleSection: a.category,
     inLanguage: "fr-FR",
     mainEntityOfPage: url,
+    ...(a.date ? { datePublished: a.date, dateModified: a.date } : {}),
     author: { "@type": "Organization", name: "EcoAstuce" },
     publisher: { "@type": "Organization", name: "EcoAstuce", logo: { "@type": "ImageObject", url: SITE + "/og-image.jpg" } }
   }) + crumbLd([["Accueil", "/"], [a.category, `/categorie/${cs}.html`], [a.title, `/articles/${a.slug}.html`]]);
 
-  return head({ title: `${a.title} — EcoAstuce`, description: a.description, url, image: img, type: "article", extra: jsonld }) +
+  return head({ title: `${a.title} — EcoAstuce`, description: a.description, url, image: og, type: "article", extra: jsonld }) +
 `${HEAD_NAV}
 <main id="contenu" class="wrap page">
 <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <a href="/categorie/${cs}.html">${esc(a.category)}</a></nav>
-<p class="meta"><a class="tag" href="/categorie/${cs}.html">${esc(a.category)}</a> · ${a.minutes} min de lecture</p>
+<p class="meta"><a class="tag" href="/categorie/${cs}.html">${esc(a.category)}</a> · ${a.minutes} min de lecture${a.date ? ` · <time datetime="${a.date}">${frDate(a.date)}</time>` : ""}</p>
 <h1>${esc(a.title)}</h1>
 <p class="lead">${esc(a.description)}</p>
 <img class="cover" src="${esc(img)}" alt="${esc(a.title)}" width="1200" height="675" fetchpriority="high" onerror="this.style.display='none'">
 <article class="article-body">
-${a.body.map(p => `<p>${esc(p)}</p>`).join("\n")}
+${renderBody(a.body)}
 </article>
 <div class="share">
 <button class="btn btn-ghost" id="copy" type="button">🔗 Copier le lien</button>
 <button class="btn btn-ghost" id="share" type="button" hidden>↗ Partager</button>
+<a class="btn btn-pin" href="${esc(pinUrl)}" target="_blank" rel="noopener noreferrer">📌 Épingler</a>
 <small id="copied" role="status" aria-live="polite"></small>
 </div>
 ${related.length ? `<section class="related" aria-labelledby="related-title">
@@ -241,6 +252,7 @@ for (const c of CATEGORIES) fs.writeFileSync(path.join(CAT_DIR, catSlug(c) + ".h
     idx = idx.replace(re, `<!--${name}-->${content}<!--/${name}-->`);
   };
   fill("noscript-list", "<ul>" + byRecent.map(a => `<li><a href="/articles/${a.slug}.html">${esc(a.title)}</a> — ${esc(a.category)}</li>`).join("") + "</ul>");
+  idx = idx.replace(/Découvrez \d+ articles/, `Découvrez ${articles.length} articles`);
   fill("footer-cats", CATEGORIES.map(c => `<a href="/categorie/${catSlug(c)}.html">${esc(c)}</a>`).join(""));
   fs.writeFileSync(INDEX, idx);
 }
