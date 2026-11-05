@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /*
- * EcoAstuce — génère une page HTML (et donc une URL) pour chaque article.
+ * EcoAstuce — génère les pages du site à partir des articles.
  *
  * Source de vérité : le tableau `articles` dans index.html.
  * Usage : node build-articles.js
@@ -9,7 +9,8 @@
  *  1. lit les articles dans index.html ;
  *  2. ajoute un `slug` (la fin de l'URL) aux articles qui n'en ont pas encore ;
  *  3. écrit une page par article dans /articles/<slug>.html ;
- *  4. met à jour sitemap.xml et robots.txt.
+ *  4. écrit une page par catégorie dans /categorie/<slug>.html ;
+ *  5. met à jour sitemap.xml et robots.txt.
  *
  * Pour ajouter un article : ajoute-le dans index.html (avec un id unique),
  * relance `node build-articles.js`, puis publie les fichiers modifiés.
@@ -21,7 +22,8 @@ const vm = require("vm");
 const ROOT = __dirname;
 const SITE = "https://ecoastuce-studio.github.io";
 const INDEX = path.join(ROOT, "index.html");
-const OUT_DIR = path.join(ROOT, "articles");
+const ART_DIR = path.join(ROOT, "articles");
+const CAT_DIR = path.join(ROOT, "categorie");
 
 let html = fs.readFileSync(INDEX, "utf8");
 
@@ -49,7 +51,7 @@ function slugify(title) {
   }
   // Ne pas finir sur un petit mot coupé ("...avant-de", "...a-la")
   const filler = new Set(["a","la","le","les","de","du","des","au","aux","avant","deux","pour","sans","et","ou","son","ses","sa","en","un","une","dans","sur","avec","que","qui","tout","ce"]);
-  let parts = s.split("-");
+  const parts = s.split("-");
   while (parts.length > 3 && filler.has(parts[parts.length - 1])) parts.pop();
   return parts.join("-");
 }
@@ -63,7 +65,6 @@ for (const a of articles) {
   while (used.has(slug)) slug = base + "-" + n++;
   used.add(slug);
   a.slug = slug;
-  // Écrire le slug dans index.html juste après l'id de l'article
   const re = new RegExp("(\\{\\s*id:\\s*" + a.id + "\\s*,)");
   if (!re.test(html)) throw new Error("Article id " + a.id + " introuvable dans index.html");
   html = html.replace(re, '$1 slug:"' + slug + '",');
@@ -71,18 +72,62 @@ for (const a of articles) {
 }
 if (newSlugs) fs.writeFileSync(INDEX, html);
 
-// --- 3. Pages d'articles ---------------------------------------------------
+// --- Helpers ---------------------------------------------------------------
 const esc = s => String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
-const bigImage = u => u + (u.includes("?") ? "" : "?auto=format&fit=crop&w=1200&q=80");
+const bigImage = (u, w = 1200) => u + (u.includes("?") ? "" : `?auto=format&fit=crop&w=${w}&q=80`);
+const thumb = u => bigImage(u, 700);
+const catSlug = c => slugify(c);
+const CATEGORIES = [...new Set(articles.map(a => a.category))]
+  .sort((x, y) => x.localeCompare(y, "fr"));
+const byRecent = [...articles].sort((x, y) => y.id - x.id);
 
-function page(a) {
+const HEAD_NAV = `<a class="skip" href="#contenu">Aller au contenu</a>
+<header><div class="wrap nav"><a class="brand" href="/">🍃 Eco<span>Astuce</span></a><nav aria-label="Navigation principale"><a href="/">Accueil</a><a href="/#articles">Articles</a><a href="/a-propos.html">À propos</a><a href="/contact.html">Contact</a></nav></div></header>`;
+const FOOT = `<footer><div class="wrap"><a href="/confidentialite.html">Politique de confidentialité</a> · <a href="/mentions-legales.html">Mentions légales</a> · <a href="#" onclick="ecoConsentReset();return false;">Gérer les cookies</a></div></footer>`;
+
+function head({ title, description, url, image, type = "website", extra = "" }) {
+  return `<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>${esc(title)}</title>
+<meta name="description" content="${esc(description)}">
+<meta name="theme-color" content="#091827">
+<link rel="canonical" href="${url}">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="${type}">
+<meta property="og:site_name" content="EcoAstuce">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:title" content="${esc(title)}">
+<meta property="og:description" content="${esc(description)}">
+<meta property="og:url" content="${url}">
+<meta property="og:image" content="${esc(image)}">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="stylesheet" href="/page.css">
+<script src="/consent.js" defer></script>
+${extra}</head>
+<body>
+`;
+}
+const ld = o => `<script type="application/ld+json">\n${JSON.stringify(o, null, 2)}\n</script>\n`;
+const crumbLd = items => ld({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it[0], item: SITE + it[1] }))
+});
+
+// --- 3. Pages d'articles ---------------------------------------------------
+function articlePage(a) {
   const url = `${SITE}/articles/${a.slug}.html`;
   const img = bigImage(a.image);
-  const related = articles
-    .filter(x => x.id !== a.id && x.category === a.category)
-    .sort((x, y) => y.id - x.id)
-    .slice(0, 3);
-  const jsonld = {
+  const cs = catSlug(a.category);
+  const sorted = [...articles].sort((x, y) => x.id - y.id);
+  const i = sorted.findIndex(x => x.id === a.id);
+  const prev = sorted[i - 1], next = sorted[i + 1];
+  const related = byRecent.filter(x => x.id !== a.id && x.category === a.category).slice(0, 3);
+
+  const jsonld = ld({
     "@context": "https://schema.org",
     "@type": "Article",
     headline: a.title,
@@ -92,62 +137,123 @@ function page(a) {
     inLanguage: "fr-FR",
     mainEntityOfPage: url,
     author: { "@type": "Organization", name: "EcoAstuce" },
-    publisher: { "@type": "Organization", name: "EcoAstuce" }
-  };
-  return `<!doctype html>
-<html lang="fr">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>${esc(a.title)} — EcoAstuce</title>
-<meta name="description" content="${esc(a.description)}">
-<link rel="canonical" href="${url}">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta property="og:type" content="article">
-<meta property="og:title" content="${esc(a.title)}">
-<meta property="og:description" content="${esc(a.description)}">
-<meta property="og:url" content="${url}">
-<meta property="og:image" content="${esc(img)}">
-<meta name="twitter:card" content="summary_large_image">
-<link rel="stylesheet" href="/page.css">
-<script src="/consent.js" defer></script>
-<script type="application/ld+json">
-${JSON.stringify(jsonld, null, 2)}
-</script>
-</head>
-<body>
-<header><div class="wrap nav"><a class="brand" href="/">🍃 Eco<span>Astuce</span></a><nav><a href="/">Accueil</a><a href="/#articles">Articles</a><a href="/a-propos.html">À propos</a><a href="/contact.html">Contact</a></nav></div></header>
-<main class="wrap page">
-<p class="meta"><a class="tag" href="/#articles">${esc(a.category)}</a> · ${a.minutes} min de lecture</p>
+    publisher: { "@type": "Organization", name: "EcoAstuce", logo: { "@type": "ImageObject", url: SITE + "/og-image.jpg" } }
+  }) + crumbLd([["Accueil", "/"], [a.category, `/categorie/${cs}.html`], [a.title, `/articles/${a.slug}.html`]]);
+
+  return head({ title: `${a.title} — EcoAstuce`, description: a.description, url, image: img, type: "article", extra: jsonld }) +
+`${HEAD_NAV}
+<main id="contenu" class="wrap page">
+<nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <a href="/categorie/${cs}.html">${esc(a.category)}</a></nav>
+<p class="meta"><a class="tag" href="/categorie/${cs}.html">${esc(a.category)}</a> · ${a.minutes} min de lecture</p>
 <h1>${esc(a.title)}</h1>
-<p class="meta">${esc(a.description)}</p>
-<img class="cover" src="${esc(img)}" alt="" loading="lazy">
+<p class="lead">${esc(a.description)}</p>
+<img class="cover" src="${esc(img)}" alt="${esc(a.title)}" width="1200" height="675" fetchpriority="high" onerror="this.style.display='none'">
+<article class="article-body">
 ${a.body.map(p => `<p>${esc(p)}</p>`).join("\n")}
-${related.length ? `<section class="related">
-<h2>À lire aussi</h2>
+</article>
+<div class="share">
+<button class="btn btn-ghost" id="copy" type="button">🔗 Copier le lien</button>
+<button class="btn btn-ghost" id="share" type="button" hidden>↗ Partager</button>
+<small id="copied" role="status" aria-live="polite"></small>
+</div>
+${related.length ? `<section class="related" aria-labelledby="related-title">
+<h2 id="related-title">À lire aussi</h2>
 <ul>
 ${related.map(r => `<li><a href="/articles/${r.slug}.html">${esc(r.title)}</a></li>`).join("\n")}
 </ul>
 </section>` : ""}
-<p><a href="/#articles">← Tous les articles</a></p>
+<div class="pager">
+${prev ? `<a class="prev" href="/articles/${prev.slug}.html"><small>← Article précédent</small>${esc(prev.title)}</a>` : "<span></span>"}
+${next ? `<a class="next" href="/articles/${next.slug}.html"><small>Article suivant →</small>${esc(next.title)}</a>` : "<span></span>"}
+</div>
+<p style="margin-top:26px"><a href="/#articles">← Tous les articles</a></p>
+<p class="meta" style="margin-top:20px">Ces informations sont données à titre général. Pour toute décision importante, vérifie auprès des sources officielles.</p>
 </main>
-<footer><div class="wrap"><a href="/confidentialite.html">Politique de confidentialité</a> · <a href="/mentions-legales.html">Mentions légales</a> · <a href="#" onclick="ecoConsentReset();return false;">Gérer les cookies</a></div></footer>
+${FOOT}
+<script>
+(function(){
+  var url=${JSON.stringify(url)},t=${JSON.stringify(a.title)},m=document.getElementById("copied");
+  var c=document.getElementById("copy"),s=document.getElementById("share");
+  c.addEventListener("click",function(){
+    var done=function(){m.textContent="Lien copié ✓"};
+    if(navigator.clipboard){navigator.clipboard.writeText(url).then(done,function(){m.textContent=url})}else{m.textContent=url}
+  });
+  if(navigator.share){s.hidden=false;s.addEventListener("click",function(){navigator.share({title:t,url:url}).catch(function(){})})}
+})();
+</script>
 </body>
 </html>
 `;
 }
 
-fs.mkdirSync(OUT_DIR, { recursive: true });
-for (const a of articles) fs.writeFileSync(path.join(OUT_DIR, a.slug + ".html"), page(a));
+// --- 4. Pages catégories ---------------------------------------------------
+const CAT_TEXT = {
+  "Maison": "Ranger, organiser et prendre soin de son logement avec des idées simples.",
+  "Budget": "Mieux suivre ses dépenses, comparer avant d'acheter et éviter les pièges.",
+  "Environnement": "Des gestes concrets pour réduire le gaspillage et mieux trier.",
+  "Technologie": "Outils, sécurité en ligne et organisation numérique, sans jargon.",
+  "Études": "Méthodes de révision et d'organisation pour apprendre plus sereinement.",
+  "Vie professionnelle": "CV, e-mails et travail en équipe : les bases pour bien démarrer.",
+  "Cuisine": "Préparer ses repas et cuisiner plus simplement."
+};
 
-// --- 4. sitemap.xml + robots.txt -------------------------------------------
+function categoryPage(cat) {
+  const cs = catSlug(cat);
+  const url = `${SITE}/categorie/${cs}.html`;
+  const list = byRecent.filter(a => a.category === cat);
+  const intro = CAT_TEXT[cat] || `Tous nos articles de la catégorie ${cat}.`;
+  const desc = `${intro} ${list.length} article${list.length > 1 ? "s" : ""} à lire gratuitement sur EcoAstuce.`;
+  const extra = crumbLd([["Accueil", "/"], [cat, `/categorie/${cs}.html`]]);
+  return head({ title: `${cat} — Articles et astuces — EcoAstuce`, description: desc, url, image: SITE + "/og-image.jpg", extra }) +
+`${HEAD_NAV}
+<main id="contenu" class="wrap page">
+<nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › ${esc(cat)}</nav>
+<h1>${esc(cat)}</h1>
+<p class="lead">${esc(intro)}</p>
+<div class="catlist" aria-label="Catégories">
+${CATEGORIES.map(c => `<a href="/categorie/${catSlug(c)}.html"${c === cat ? ' aria-current="page"' : ""}>${esc(c)}</a>`).join("\n")}
+</div>
+<div class="cards">
+${list.map(a => `<a class="card" href="/articles/${a.slug}.html"><img src="${esc(thumb(a.image))}" alt="" loading="lazy" width="700" height="300" onerror="this.style.display='none'"><div><span class="tag">${a.minutes} min</span><h2>${esc(a.title)}</h2><p>${esc(a.description)}</p></div></a>`).join("\n")}
+</div>
+<p style="margin-top:26px"><a href="/#articles">← Tous les articles</a></p>
+</main>
+${FOOT}
+</body>
+</html>
+`;
+}
+
+// --- Écriture --------------------------------------------------------------
+for (const dir of [ART_DIR, CAT_DIR]) {
+  fs.mkdirSync(dir, { recursive: true });
+  for (const f of fs.readdirSync(dir)) if (f.endsWith(".html")) fs.unlinkSync(path.join(dir, f)); // pas de pages orphelines
+}
+for (const a of articles) fs.writeFileSync(path.join(ART_DIR, a.slug + ".html"), articlePage(a));
+for (const c of CATEGORIES) fs.writeFileSync(path.join(CAT_DIR, catSlug(c) + ".html"), categoryPage(c));
+
+// --- Index : liste de secours (sans JavaScript) + liens catégories ----------
+{
+  let idx = fs.readFileSync(INDEX, "utf8");
+  const fill = (name, content) => {
+    const re = new RegExp(`<!--${name}-->[\\s\\S]*?<!--/${name}-->`);
+    if (!re.test(idx)) throw new Error("Repère " + name + " introuvable dans index.html");
+    idx = idx.replace(re, `<!--${name}-->${content}<!--/${name}-->`);
+  };
+  fill("noscript-list", "<ul>" + byRecent.map(a => `<li><a href="/articles/${a.slug}.html">${esc(a.title)}</a> — ${esc(a.category)}</li>`).join("") + "</ul>");
+  fill("footer-cats", CATEGORIES.map(c => `<a href="/categorie/${catSlug(c)}.html">${esc(c)}</a>`).join(""));
+  fs.writeFileSync(INDEX, idx);
+}
+
+// --- 5. sitemap.xml + robots.txt -------------------------------------------
 const urls = [
   "/", "/a-propos.html", "/contact.html", "/confidentialite.html", "/mentions-legales.html",
-  ...articles.sort((x, y) => x.id - y.id).map(a => `/articles/${a.slug}.html`)
+  ...CATEGORIES.map(c => `/categorie/${catSlug(c)}.html`),
+  ...[...articles].sort((x, y) => x.id - y.id).map(a => `/articles/${a.slug}.html`)
 ];
 fs.writeFileSync(path.join(ROOT, "sitemap.xml"),
   `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n` +
   urls.map(u => `  <url><loc>${SITE}${u}</loc></url>`).join("\n") + `\n</urlset>\n`);
 fs.writeFileSync(path.join(ROOT, "robots.txt"), `User-agent: *\nAllow: /\n\nSitemap: ${SITE}/sitemap.xml\n`);
 
-console.log(`${articles.length} articles — ${newSlugs} nouveaux slugs — pages écrites dans /articles`);
+console.log(`${articles.length} articles, ${CATEGORIES.length} catégories — ${newSlugs} nouveaux slugs`);
