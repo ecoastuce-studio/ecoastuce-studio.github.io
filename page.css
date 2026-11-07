@@ -71,3 +71,8 @@ footer a:hover{color:var(--mint)}
 .related .card h3{font-size:1rem;margin:8px 0 6px;line-height:1.35}
 .related{background:transparent;border:0;padding:0}
 .card img[src^="/img/"]{object-position:center 88%}
+.toc{background:#fff;border:1px solid var(--line);border-radius:14px;padding:14px 18px;margin:0 0 24px;max-width:68ch}
+.toc strong{display:block;margin-bottom:6px}
+.toc ol{margin:0;padding-left:20px}
+.toc li{margin:3px 0}
+.page h2{scroll-margin-top:84px}

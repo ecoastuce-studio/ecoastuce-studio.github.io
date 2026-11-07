@@ -79,10 +79,19 @@ const bigImage = (u, w = 1200) => /^https?:/.test(u) ? u + (u.includes("?") ? ""
 const absUrl = u => /^https?:/.test(u) ? u : SITE + u;
 const FR_MONTHS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 const frDate = d => { const [y, m, j] = d.split("-").map(Number); return `${j === 1 ? "1er" : j} ${FR_MONTHS[m - 1]} ${y}`; };
+// Ancre d'un sous-titre (pour le sommaire) : minuscules, sans accents, mots séparés par des tirets.
+const anchor = t => t.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "") || "section";
+// Sommaire : seulement pour les articles avec au moins 3 sous-titres.
+const tocFor = body => {
+  const heads = body.filter(p => p.startsWith("## ")).map(p => p.slice(3));
+  if (heads.length < 3) return "";
+  return `<nav class="toc" aria-label="Sommaire"><strong>Sommaire</strong><ol>${heads.map(h => `<li><a href="#${anchor(h)}">${esc(h)}</a></li>`).join("")}</ol></nav>`;
+};
+
 // Corps de l'article. Avec withAd, un emplacement publicitaire est inséré au milieu, juste avant un sous-titre
 // (jamais collé à un titre ni en tout début d'article).
 function renderBody(body, withAd = false) {
-  const html = body.map(p => p.startsWith("## ") ? `<h2>${esc(p.slice(3))}</h2>` : `<p>${esc(p)}</p>`);
+  const html = body.map(p => p.startsWith("## ") ? `<h2 id="${anchor(p.slice(3))}">${esc(p.slice(3))}</h2>` : `<p>${esc(p)}</p>`);
   if (withAd) {
     const heads = body.map((p, i) => p.startsWith("## ") ? i : -1).filter(i => i > 2);
     const at = heads.length ? heads[Math.floor((heads.length - 1) / 2)] : (body.length >= 5 ? 3 : -1);
@@ -146,6 +155,9 @@ const crumbLd = items => ld({
   itemListElement: items.map((it, i) => ({ "@type": "ListItem", position: i + 1, name: it[0], item: SITE + it[1] }))
 });
 
+// Titre de page : on ajoute « — EcoAstuce » seulement s'il reste assez court pour ne pas être coupé dans Google.
+const pageTitle = t => (t + " — EcoAstuce").length <= 65 ? t + " — EcoAstuce" : t;
+
 // --- 3. Pages d'articles ---------------------------------------------------
 function articlePage(a) {
   const url = `${SITE}/articles/${a.slug}.html`;
@@ -173,7 +185,7 @@ function articlePage(a) {
     publisher: { "@type": "Organization", name: "EcoAstuce", logo: { "@type": "ImageObject", url: SITE + "/og-image.jpg" } }
   }) + crumbLd([["Accueil", "/"], [a.category, `/categorie/${cs}.html`], [a.title, `/articles/${a.slug}.html`]]);
 
-  return head({ title: `${a.title} — EcoAstuce`, description: a.description, url, image: og, type: "article", extra: jsonld }) +
+  return head({ title: pageTitle(a.title), description: a.description, url, image: og, type: "article", extra: jsonld }) +
 `${HEAD_NAV}
 <main id="contenu" class="wrap page">
 <nav class="crumbs" aria-label="Fil d'Ariane"><a href="/">Accueil</a> › <a href="/categorie/${cs}.html">${esc(a.category)}</a></nav>
@@ -181,6 +193,7 @@ function articlePage(a) {
 <h1>${esc(a.title)}</h1>
 <p class="lead">${esc(a.description)}</p>
 <img class="cover" src="${esc(img)}" alt="${esc(a.title)}" width="1200" height="675" fetchpriority="high" onerror="this.style.display='none'">
+${tocFor(a.body)}
 <article class="article-body">
 ${renderBody(a.body, true)}
 </article>

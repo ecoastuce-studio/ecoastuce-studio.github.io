@@ -114,157 +114,342 @@ dialog{width:min(720px,92vw);max-height:86vh;overflow:auto;border:0;border-radiu
 </footer>
 <script>
 const articles = [
- {id:1, slug:"10-habitudes-pour-reduire-sa-consommation-denergie-a-la-maison",category:"Maison",title:"10 habitudes pour réduire sa consommation d’énergie à la maison",description:"Des gestes simples pour limiter le gaspillage au quotidien.",image:"https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=900&q=80",minutes:5,body:["Commence par repérer les appareils qui restent allumés inutilement et éteins les lumières en quittant une pièce.","Profite de la lumière naturelle lorsque c’est possible et règle le chauffage selon les recommandations adaptées à ton logement.","Pour éviter les fausses bonnes idées, compare toujours les conseils avec les recommandations officielles et les caractéristiques de ton logement.","Le plus efficace est de choisir une ou deux habitudes faciles à garder, puis d’en ajouter d’autres progressivement."]},
- {id:2, slug:"7-facons-de-mieux-gerer-son-argent-au-quotidien",category:"Budget",title:"7 façons de mieux gérer son argent au quotidien",description:"Quelques habitudes pour suivre ses dépenses et préparer ses projets.",image:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80",minutes:6,body:["Note tes dépenses pendant quelques semaines pour comprendre où va ton argent, sans te juger.","Avant un achat, prends le temps de comparer les prix et de vérifier si tu en as réellement besoin.","Fixe-toi un petit objectif d’épargne réaliste et garde une trace de tes progrès.","Méfie-toi des promesses de gains rapides, des frais cachés et des offres qui demandent de payer pour commencer."]},
- {id:3, slug:"5-gestes-simples-pour-prendre-soin-de-lenvironnement",category:"Environnement",title:"5 gestes simples pour prendre soin de l’environnement",description:"Des actions accessibles à tester dans la vie de tous les jours.",image:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80",minutes:4,body:["Réutilise ce que tu possèdes déjà avant d’acheter du neuf.","Quand c’est pratique et sûr, privilégie la marche, le vélo ou les transports en commun pour les trajets adaptés.","Évite le gaspillage alimentaire en planifiant quelques repas et en vérifiant ce que tu as déjà chez toi.","Les gestes individuels sont utiles, surtout lorsqu’ils deviennent des habitudes collectives."]},
- {id:4, slug:"des-outils-gratuits-pour-mieux-sorganiser",category:"Technologie",title:"Des outils gratuits pour mieux s’organiser",description:"Des idées d’outils pour planifier ses tâches et garder le cap.",image:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",minutes:5,body:["Un calendrier numérique peut servir à noter les échéances et à répartir les tâches sur la semaine.","Une liste de tâches simple aide à transformer un gros projet en petites étapes réalisables.","Avant d’installer un outil, vérifie son prix réel, ses conditions de confidentialité et les fonctions gratuites disponibles.","Le meilleur outil est celui que tu arrives à utiliser régulièrement, pas forcément celui qui possède le plus de fonctions."]},
- {id:5, slug:"une-methode-simple-pour-preparer-une-seance-de-revision",category:"Études",title:"Une méthode simple pour préparer une séance de révision",description:"Structure tes révisions avec des objectifs courts et des pauses.",image:"https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=900&q=80",minutes:4,body:["Commence par écrire ce que tu veux savoir faire à la fin de la séance.","Travaille sur une tâche à la fois, puis essaie de reformuler ce que tu as compris sans regarder tes notes.","Prévois de courtes pauses et reviens plus tard sur les notions difficiles.","Adapte cette méthode à ton emploi du temps et demande de l’aide quand un point reste bloqué."]},
- {id:6, slug:"ranger-son-bureau-sans-acheter-de-nouveaux-accessoires",category:"Maison",title:"Ranger son bureau sans acheter de nouveaux accessoires",description:"Réorganise ton espace avec ce que tu as déjà sous la main.",image:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80",minutes:3,body:["Retire d’abord ce qui n’a pas besoin de rester sur le bureau.","Regroupe les objets par usage et réutilise des boîtes propres que tu possèdes déjà pour les petits accessoires.","Garde à portée de main les éléments que tu utilises souvent et range le reste dans un endroit défini.","Teste l’organisation quelques jours avant d’acheter quoi que ce soit."]},
- {id:7, slug:"comparer-un-achat-avant-de-depenser",category:"Budget",title:"Comparer un achat avant de dépenser",description:"Une petite checklist pour prendre une décision plus réfléchie.",image:"https://images.unsplash.com/photo-1484788984921-03950022c9ef?auto=format&fit=crop&w=900&q=80",minutes:4,body:["Compare le prix total, les frais de livraison éventuels et les conditions de retour.","Lis plusieurs avis variés et vérifie qu’ils semblent authentiques.","Regarde si une solution gratuite, empruntée ou d’occasion répond au même besoin.","Évite de décider sous la pression d’un compte à rebours ou d’une offre présentée comme exceptionnelle."]},
- {id:8, slug:"proteger-ses-donnees-avec-quelques-reflexes-simples",category:"Technologie",title:"Protéger ses données avec quelques réflexes simples",description:"Des bases utiles pour naviguer plus sereinement en ligne.",image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",minutes:5,body:["Utilise des mots de passe différents pour les comptes importants et active la double authentification lorsqu’elle est disponible.","Méfie-toi des messages inattendus qui demandent de cliquer rapidement ou de partager des informations personnelles.","Mets à jour tes appareils et applications depuis leurs sources officielles.","Ne publie pas d’informations personnelles dont tu n’as pas besoin de révéler."]},
- {id:9, slug:"creer-un-coin-de-travail-agreable-avec-ce-que-lon-possede",category:"Maison",title:"Créer un coin de travail agréable avec ce que l’on possède",description:"Quelques idées pour rendre son bureau plus pratique sans dépenser.",image:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80",minutes:4,body:["Commence par observer ton espace et repère ce qui te gêne au quotidien.","Réutilise des boîtes propres pour ranger les petits objets et regroupe les fournitures par catégorie.","Place les objets les plus utilisés à portée de main et garde une surface libre pour travailler.","Teste cette organisation pendant quelques jours avant d'envisager de nouveaux achats."]},
- {id:10, slug:"reduire-ses-depenses-numeriques-sans-perdre-en-confort",category:"Budget",title:"Réduire ses dépenses numériques sans perdre en confort",description:"Fais le point sur les abonnements et services que tu utilises réellement.",image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80",minutes:5,body:["Liste les abonnements et services payants de ton foyer avec l'accord de la personne qui les gère.","Vérifie les dates de renouvellement et les conditions de résiliation.","Compare les versions gratuites et payantes des services avant de choisir.","Ne partage jamais tes identifiants bancaires et demande l'aide d'un adulte si nécessaire."]},
- {id:11, slug:"organiser-sa-semaine-en-15-minutes",category:"Études",title:"Organiser sa semaine en 15 minutes",description:"Une méthode simple pour mieux répartir les devoirs, les activités et les pauses.",image:"https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=900&q=80",minutes:4,body:["Note les devoirs, rendez-vous et activités prévus cette semaine.","Choisis deux ou trois priorités réalistes pour chaque journée.","Découpe les tâches importantes en petites étapes faciles à commencer.","Garde des moments libres pour les imprévus et le repos."]},
- {id:12, slug:"donner-une-seconde-vie-aux-objets-du-quotidien",category:"Environnement",title:"Donner une seconde vie aux objets du quotidien",description:"Des idées pour réutiliser ce que tu possèdes avant de jeter.",image:"https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=900&q=80",minutes:5,body:["Avant de jeter un objet, demande-toi s'il peut encore servir à son usage initial.","Un bocal propre peut, par exemple, accueillir de petits accessoires ou du matériel de loisirs créatifs.","Répare les objets lorsque c'est possible et sans danger, ou fais appel à une personne compétente.","Si tu n'en as plus besoin, pense au don, à la réparation ou au recyclage adapté."]},
- {id:13, slug:"faire-le-tri-dans-ses-fichiers-numeriques",category:"Technologie",title:"Faire le tri dans ses fichiers numériques",description:"Retrouve plus facilement tes documents grâce à un rangement simple.",image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",minutes:5,body:["Crée quelques dossiers faciles à comprendre, par exemple Documents, Projets et Photos.","Donne aux fichiers des noms précis pour les retrouver plus facilement.","Supprime uniquement les doublons et fichiers inutiles après vérification.","Sauvegarde les documents importants dans un emplacement sécurisé et vérifie régulièrement que tes sauvegardes fonctionnent."]}, 
-  {id: 14, slug:"creer-un-cv-convaincant-quand-on-manque-dexperience",
-  category: "Vie professionnelle",
-  title: "Créer un CV convaincant quand on manque d’expérience",
-  description: "Mets en valeur tes compétences, tes projets et tes qualités, même sans expérience professionnelle classique.",
-  image: "https://images.unsplash.com/photo-1586281380349-632531db7ed4",
-  minutes: 3,
-  body: [
+  {id:1, slug:"10-habitudes-pour-reduire-sa-consommation-denergie-a-la-maison", category:"Maison", title:"10 habitudes pour réduire sa consommation d’énergie à la maison", description:"Des gestes simples pour limiter le gaspillage au quotidien.", image:"https://images.unsplash.com/photo-1494438639946-1ebd1d20bf85?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Commence par repérer les appareils qui restent allumés inutilement et éteins les lumières en quittant une pièce.",
+    "Profite de la lumière naturelle lorsque c’est possible et règle le chauffage selon les recommandations adaptées à ton logement.",
+    "Pour éviter les fausses bonnes idées, compare toujours les conseils avec les recommandations officielles et les caractéristiques de ton logement.",
+    "Le plus efficace est de choisir une ou deux habitudes faciles à garder, puis d’en ajouter d’autres progressivement.",
+    "## Les 10 habitudes à essayer",
+    "1. Éteindre la lumière en quittant une pièce et profiter de la lumière du jour.",
+    "2. Couper les appareils en veille avec une multiprise à interrupteur (télévision, console, box, chargeurs).",
+    "3. Remplacer progressivement les anciennes ampoules par des ampoules économes quand elles sont à changer.",
+    "4. Régler le chauffage avec modération et le baisser la nuit ou en cas d’absence, selon ton logement et ta santé.",
+    "5. Lancer le lave-linge et le lave-vaisselle quand ils sont bien remplis, sans les surcharger.",
+    "6. Choisir une température de lavage basse quand le linge n’est pas très sale.",
+    "7. Mettre un couvercle sur les casseroles pendant la cuisson.",
+    "8. Faire sécher le linge à l’air libre quand c’est possible plutôt que d’utiliser un sèche-linge.",
+    "9. Aérer quelques minutes en grand plutôt que de laisser une fenêtre entrouverte longtemps en hiver.",
+    "10. Éteindre complètement les écrans et ordinateurs que tu n’utilises plus.",
+    "## Par où commencer",
+    "Inutile de tout appliquer d’un coup. Choisis deux habitudes qui ne te demandent presque aucun effort, comme la multiprise et le couvercle, et garde-les deux semaines avant d’en ajouter. Si tu ne gères pas le contrat d’électricité toi-même, parle de tes idées avec la personne qui le gère : elle pourra suivre l’évolution de la consommation sur les factures."
+  ]},
+  {id:2, slug:"7-facons-de-mieux-gerer-son-argent-au-quotidien", category:"Budget", title:"7 façons de mieux gérer son argent au quotidien", description:"Quelques habitudes pour suivre ses dépenses et préparer ses projets.", image:"https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Note tes dépenses pendant quelques semaines pour comprendre où va ton argent, sans te juger.",
+    "Avant un achat, prends le temps de comparer les prix et de vérifier si tu en as réellement besoin.",
+    "Fixe-toi un petit objectif d’épargne réaliste et garde une trace de tes progrès.",
+    "Méfie-toi des promesses de gains rapides, des frais cachés et des offres qui demandent de payer pour commencer.",
+    "## Les 7 habitudes à retenir",
+    "1. Noter ses dépenses pendant quelques semaines, sur papier, dans un tableur ou dans une application.",
+    "2. Séparer l’indispensable (logement, transport, repas) du plaisir (sorties, abonnements, vêtements).",
+    "3. Mettre de côté une petite somme dès que l’argent arrive, plutôt qu’en fin de mois.",
+    "4. Attendre un ou deux jours avant un achat non essentiel.",
+    "5. Comparer le prix à l’unité (au kilo, au litre) et pas seulement le prix du paquet.",
+    "6. Refaire le point chaque mois sur les abonnements et dépenses régulières.",
+    "7. Se fixer un objectif concret, comme un projet ou un petit coussin de sécurité, pour garder la motivation.",
+    "## Un conseil pour tenir dans la durée",
+    "Un budget qui demande trop d’efforts est abandonné en quelques semaines. Mieux vaut une méthode simple, que tu appliques vraiment, qu’un tableau parfait que tu n’ouvres plus. Si tu gères de l’argent avec un parent ou un tuteur, parlez-en ensemble : un regard extérieur aide à repérer des dépenses qu’on ne voit plus."
+  ]},
+  {id:3, slug:"5-gestes-simples-pour-prendre-soin-de-lenvironnement", category:"Environnement", title:"5 gestes simples pour prendre soin de l’environnement", description:"Des actions accessibles à tester dans la vie de tous les jours.", image:"https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Réutilise ce que tu possèdes déjà avant d’acheter du neuf.",
+    "Quand c’est pratique et sûr, privilégie la marche, le vélo ou les transports en commun pour les trajets adaptés.",
+    "Évite le gaspillage alimentaire en planifiant quelques repas et en vérifiant ce que tu as déjà chez toi.",
+    "Les gestes individuels sont utiles, surtout lorsqu’ils deviennent des habitudes collectives.",
+    "## Les 5 gestes",
+    "1. Réutiliser et réparer avant d’acheter du neuf : un objet qui fonctionne encore n’a pas besoin d’être remplacé.",
+    "2. Limiter les emballages jetables : gourde, sac réutilisable, boîtes pour les repas.",
+    "3. Choisir des modes de déplacement moins polluants quand c’est pratique et sûr.",
+    "4. Réduire le gaspillage alimentaire en planifiant quelques repas et en utilisant les restes.",
+    "5. Trier les déchets selon les consignes de ta commune et rapporter les objets particuliers (piles, appareils) dans les points de collecte.",
+    "## Pourquoi les petits gestes comptent",
+    "Un geste isolé change peu de choses, mais des milliers de gestes répétés réduisent vraiment les déchets et la consommation d’énergie. Ils ont aussi un avantage concret : la plupart permettent d’économiser de l’argent. Commence par celui qui te paraît le plus facile, puis parles-en autour de toi : les habitudes se partagent plus vite qu’on ne le croit."
+  ]},
+  {id:4, slug:"des-outils-gratuits-pour-mieux-sorganiser", category:"Technologie", title:"Des outils gratuits pour mieux s’organiser", description:"Des idées d’outils pour planifier ses tâches et garder le cap.", image:"https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Un calendrier numérique peut servir à noter les échéances et à répartir les tâches sur la semaine.",
+    "Une liste de tâches simple aide à transformer un gros projet en petites étapes réalisables.",
+    "Avant d’installer un outil, vérifie son prix réel, ses conditions de confidentialité et les fonctions gratuites disponibles.",
+    "Le meilleur outil est celui que tu arrives à utiliser régulièrement, pas forcément celui qui possède le plus de fonctions.",
+    "## Quelques types d’outils utiles",
+    "Un calendrier numérique pour les dates fixes (rendez-vous, rendus de devoirs), avec des rappels. Une liste de tâches pour les petites actions à faire. Une application de notes pour garder des idées et des informations au même endroit. Un tableau en trois colonnes (à faire, en cours, terminé) pour suivre un projet. Un simple minuteur pour travailler par séquences courtes.",
+    "## Comment choisir sans te disperser",
+    "Teste un seul outil à la fois pendant une semaine. S’il t’aide, garde-le ; sinon, abandonne-le sans culpabiliser. Multiplier les applications finit souvent par compliquer l’organisation au lieu de la simplifier. Lis les conditions d’utilisation, évite de saisir des informations très personnelles, et respecte l’âge minimum prévu par chaque service."
+  ]},
+  {id:5, slug:"une-methode-simple-pour-preparer-une-seance-de-revision", category:"Études", title:"Une méthode simple pour préparer une séance de révision", description:"Structure tes révisions avec des objectifs courts et des pauses.", image:"https://images.unsplash.com/photo-1456324504439-367cee3b3c32?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Commence par écrire ce que tu veux savoir faire à la fin de la séance.",
+    "Travaille sur une tâche à la fois, puis essaie de reformuler ce que tu as compris sans regarder tes notes.",
+    "Prévois de courtes pauses et reviens plus tard sur les notions difficiles.",
+    "Adapte cette méthode à ton emploi du temps et demande de l’aide quand un point reste bloqué.",
+    "## Un exemple de séance de 45 minutes",
+    "Pendant 5 minutes, écris l’objectif : par exemple « savoir expliquer les causes de la Première Guerre mondiale » ou « refaire trois exercices sur les fractions ». Pendant 15 minutes, étudie la notion. Fais ensuite 5 minutes de pause. Pendant 15 minutes, teste-toi : réponds sans regarder ton cours, puis vérifie. Termine par 5 minutes pour noter ce qu’il reste à revoir.",
+    "## Les erreurs fréquentes",
+    "Vouloir tout réviser en une seule fois, relire sans jamais se tester, ou laisser son téléphone à portée de main pendant la séance. Mieux vaut des séances courtes, régulières et avec un objectif précis. Si une notion te bloque après plusieurs essais, note ta question et demande à un enseignant ou à un camarade plutôt que de t’acharner seul."
+  ]},
+  {id:6, slug:"ranger-son-bureau-sans-acheter-de-nouveaux-accessoires", category:"Maison", title:"Ranger son bureau sans acheter de nouveaux accessoires", description:"Réorganise ton espace avec ce que tu as déjà sous la main.", image:"https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Retire d’abord ce qui n’a pas besoin de rester sur le bureau.",
+    "Regroupe les objets par usage et réutilise des boîtes propres que tu possèdes déjà pour les petits accessoires.",
+    "Garde à portée de main les éléments que tu utilises souvent et range le reste dans un endroit défini.",
+    "Teste l’organisation quelques jours avant d’acheter quoi que ce soit.",
+    "## Une méthode en quatre étapes",
+    "Étape 1 : vide la surface du bureau et pose tout sur une table ou un lit. Étape 2 : fais trois tas : ce que j’utilise tous les jours, ce que j’utilise parfois, ce dont je n’ai plus besoin. Étape 3 : remets d’abord les objets du quotidien, puis range les autres dans un tiroir ou une boîte. Étape 4 : donne, recycle ou jette le reste en respectant les consignes de tri.",
+    "## Garder un bureau rangé",
+    "Prends l’habitude de ranger en cinq minutes à la fin de la journée : remets les stylos, empile les papiers à traiter et pose un seul objet à l’endroit prévu. Le plus souvent, on achète des rangements avant d’avoir trié, alors que la vraie solution est d’avoir moins d’objets à ranger."
+  ]},
+  {id:7, slug:"comparer-un-achat-avant-de-depenser", category:"Budget", title:"Comparer un achat avant de dépenser", description:"Une petite checklist pour prendre une décision plus réfléchie.", image:"https://images.unsplash.com/photo-1484788984921-03950022c9ef?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Compare le prix total, les frais de livraison éventuels et les conditions de retour.",
+    "Lis plusieurs avis variés et vérifie qu’ils semblent authentiques.",
+    "Regarde si une solution gratuite, empruntée ou d’occasion répond au même besoin.",
+    "Évite de décider sous la pression d’un compte à rebours ou d’une offre présentée comme exceptionnelle.",
+    "## Une checklist en cinq questions",
+    "1. En ai-je vraiment besoin, ou est-ce une envie passagère ? 2. Quel est le prix total, avec la livraison et les éventuels frais ? 3. Que se passe-t-il si le produit ne me convient pas (retour, remboursement) ? 4. Existe-t-il une version d’occasion, empruntable ou déjà chez moi ? 5. Combien de temps vais-je l’utiliser ?",
+    "## Un exemple concret",
+    "Imaginons deux paires d’écouteurs : l’une à 25 euros sans garantie claire, l’autre à 35 euros avec une garantie et des retours faciles. Si la première tombe en panne au bout de trois mois, tu en rachètes une et tu dépenses plus que pour la seconde. Le prix le plus bas n’est pas toujours le moins cher à long terme.",
+    "Prends aussi l’habitude de noter la date d’achat et de conserver la facture : en cas de problème, tu pourras faire valoir tes droits."
+  ]},
+  {id:8, slug:"proteger-ses-donnees-avec-quelques-reflexes-simples", category:"Technologie", title:"Protéger ses données avec quelques réflexes simples", description:"Des bases utiles pour naviguer plus sereinement en ligne.", image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Utilise des mots de passe différents pour les comptes importants et active la double authentification lorsqu’elle est disponible.",
+    "Méfie-toi des messages inattendus qui demandent de cliquer rapidement ou de partager des informations personnelles.",
+    "Mets à jour tes appareils et applications depuis leurs sources officielles.",
+    "Ne publie pas d’informations personnelles dont tu n’as pas besoin de révéler.",
+    "## Les réglages à vérifier une fois",
+    "Passe en revue les autorisations accordées à tes applications : localisation, micro, appareil photo, contacts. Retire celles qui ne servent à rien. Dans les réseaux sociaux, choisis qui peut voir tes publications et qui peut t’écrire. Active le verrouillage de l’écran avec un code ou une empreinte, car un téléphone perdu sans verrouillage donne accès à presque tout.",
+    "## Les situations à risque",
+    "Sur un Wi-Fi public, évite de saisir des mots de passe ou des informations bancaires. Ne branche pas ton appareil sur une borne de recharge inconnue si tu peux l’éviter. Méfie-toi des jeux, des tests ou des concours qui demandent beaucoup d’informations personnelles. Quand tu as un doute, demande l’avis d’un adulte de confiance avant de cliquer ou de répondre."
+  ]},
+  {id:9, slug:"creer-un-coin-de-travail-agreable-avec-ce-que-lon-possede", category:"Maison", title:"Créer un coin de travail agréable avec ce que l’on possède", description:"Quelques idées pour rendre son bureau plus pratique sans dépenser.", image:"https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Commence par observer ton espace et repère ce qui te gêne au quotidien.",
+    "Réutilise des boîtes propres pour ranger les petits objets et regroupe les fournitures par catégorie.",
+    "Place les objets les plus utilisés à portée de main et garde une surface libre pour travailler.",
+    "Teste cette organisation pendant quelques jours avant d'envisager de nouveaux achats.",
+    "## Les éléments qui comptent vraiment",
+    "La lumière : place ton bureau près d’une fenêtre quand c’est possible et complète avec une lampe pour éviter de travailler dans la pénombre. La position : l’écran à hauteur des yeux et les pieds posés au sol aident à rester à l’aise plus longtemps. Le calme : réduis les distractions, par exemple en éloignant le téléphone. L’ordre : une surface dégagée donne plus facilement envie de s’y mettre.",
+    "## Sans dépenser",
+    "Une pile de livres peut surélever un écran, un coussin peut rendre une chaise plus confortable, et un simple tissu peut cacher un coin encombré. Fais des pauses régulières pour te lever, t’étirer et regarder au loin. Si tu ressens des douleurs persistantes en travaillant, parles-en à un adulte ou à un professionnel de santé."
+  ]},
+  {id:10, slug:"reduire-ses-depenses-numeriques-sans-perdre-en-confort", category:"Budget", title:"Réduire ses dépenses numériques sans perdre en confort", description:"Fais le point sur les abonnements et services que tu utilises réellement.", image:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Liste les abonnements et services payants de ton foyer avec l'accord de la personne qui les gère.",
+    "Vérifie les dates de renouvellement et les conditions de résiliation.",
+    "Compare les versions gratuites et payantes des services avant de choisir.",
+    "Ne partage jamais tes identifiants bancaires et demande l'aide d'un adulte si nécessaire.",
+    "## Un exemple d’inventaire",
+    "Streaming vidéo, musique, stockage en ligne, jeux, applications, forfait de téléphone : écris pour chacun le prix, la fréquence et la date de renouvellement. Souvent, on découvre un abonnement oublié ou deux services qui font la même chose. Supprimer celui que tu n’utilises plus est un gain immédiat.",
+    "## Des alternatives à comparer",
+    "Beaucoup de services proposent une version gratuite avec quelques limites, des offres partagées au sein d’un foyer ou des périodes d’essai. Regarde ce qui est vraiment inclus avant de payer. Attention aux achats intégrés dans les jeux et applications : tu peux demander à la personne qui gère le compte d’activer une confirmation avant chaque achat."
+  ]},
+  {id:11, slug:"organiser-sa-semaine-en-15-minutes", category:"Études", title:"Organiser sa semaine en 15 minutes", description:"Une méthode simple pour mieux répartir les devoirs, les activités et les pauses.", image:"https://images.unsplash.com/photo-1506784983877-45594efa4cbe?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Note les devoirs, rendez-vous et activités prévus cette semaine.",
+    "Choisis deux ou trois priorités réalistes pour chaque journée.",
+    "Découpe les tâches importantes en petites étapes faciles à commencer.",
+    "Garde des moments libres pour les imprévus et le repos.",
+    "## Un exemple de planning en 15 minutes",
+    "Les 5 premières minutes : ouvre ton agenda et note tout ce qui est fixe, comme les cours, les rendez-vous, les entraînements et les dates de rendus. Les 5 minutes suivantes : choisis deux ou trois priorités par jour, par exemple « finir l’exposé » ou « réviser le chapitre 3 ». Les 5 dernières minutes : découpe la tâche la plus lourde en étapes de 20 à 30 minutes.",
+    "## Pour que ça marche",
+    "Ne remplis pas chaque heure : prévois des marges pour les imprévus, les repas et le repos. Si une tâche n’est pas faite un jour, déplace-la au lieu de te décourager. Refais ce petit point au même moment chaque semaine, par exemple le dimanche soir, pour en faire une habitude."
+  ]},
+  {id:12, slug:"donner-une-seconde-vie-aux-objets-du-quotidien", category:"Environnement", title:"Donner une seconde vie aux objets du quotidien", description:"Des idées pour réutiliser ce que tu possèdes avant de jeter.", image:"https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Avant de jeter un objet, demande-toi s'il peut encore servir à son usage initial.",
+    "Un bocal propre peut, par exemple, accueillir de petits accessoires ou du matériel de loisirs créatifs.",
+    "Répare les objets lorsque c'est possible et sans danger, ou fais appel à une personne compétente.",
+    "Si tu n'en as plus besoin, pense au don, à la réparation ou au recyclage adapté.",
+    "## Quelques idées concrètes",
+    "Un vieux t-shirt peut devenir un chiffon. Une boîte à chaussures sert de rangement, un bocal de pot à crayons ou de boîte pour les petites vis. Des vêtements encore en bon état peuvent être donnés ou échangés. Un livre que tu ne lis plus peut passer dans une boîte à livres ou une bibliothèque de quartier.",
+    "## Ce qu’il vaut mieux éviter",
+    "Ne réutilise pas pour la nourriture un contenant qui a servi à autre chose, ne bricole pas les appareils électriques et ne mélange pas des produits chimiques. Pour un objet cassé et potentiellement dangereux, demande l’aide d’un adulte ou d’une personne compétente. Beaucoup de communes proposent aussi des ateliers de réparation : renseigne-toi."
+  ]},
+  {id:13, slug:"faire-le-tri-dans-ses-fichiers-numeriques", category:"Technologie", title:"Faire le tri dans ses fichiers numériques", description:"Retrouve plus facilement tes documents grâce à un rangement simple.", image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
+    "Crée quelques dossiers faciles à comprendre, par exemple Documents, Projets et Photos.",
+    "Donne aux fichiers des noms précis pour les retrouver plus facilement.",
+    "Supprime uniquement les doublons et fichiers inutiles après vérification.",
+    "Sauvegarde les documents importants dans un emplacement sécurisé et vérifie régulièrement que tes sauvegardes fonctionnent.",
+    "## Une méthode simple pour nommer les fichiers",
+    "Commence le nom par la date ou la matière, puis une description courte, par exemple « 2026-11_histoire_expose.pdf ». Évite les noms comme « nouveau document (3) » ou « final_final2 », qui ne disent rien quelques semaines plus tard. Reste cohérent : choisis une règle et applique-la toujours.",
+    "## Prévoir un moment pour trier",
+    "Garde un dossier « À trier » pour les fichiers que tu n’as pas encore classés et vide-le chaque semaine en dix minutes. Avant de supprimer quoi que ce soit, vérifie que tu en as une copie ailleurs si le fichier est important. Pense aussi à vider le dossier de téléchargements, souvent rempli de documents oubliés."
+  ]},
+  {id:14, slug:"creer-un-cv-convaincant-quand-on-manque-dexperience", category:"Vie professionnelle", title:"Créer un CV convaincant quand on manque d’expérience", description:"Mets en valeur tes compétences, tes projets et tes qualités, même sans expérience professionnelle classique.", image:"https://images.unsplash.com/photo-1586281380349-632531db7ed4", minutes:3, body:[
     "Quand on prépare son premier CV, on peut avoir l'impression de ne pas avoir assez d'expérience. Pourtant, les projets scolaires, les activités associatives, les stages et les petits boulots comptent.",
     "Commence par indiquer clairement le type de stage, d'alternance ou d'emploi recherché. Ajoute ensuite ta formation, tes compétences et les expériences pertinentes que tu as réalisées.",
     "Pour chaque projet, explique brièvement ce que tu as réalisé et ce que tu as appris. Par exemple, un exposé en groupe peut démontrer ta capacité à faire des recherches, à organiser ton travail et à collaborer.",
     "Adapte ton CV à chaque candidature en mettant en avant les compétences demandées. Utilise une présentation simple, relis l'orthographe et vérifie que tes coordonnées sont correctes.",
-    "Ne prétends jamais posséder une expérience ou un diplôme que tu n'as pas. Un CV honnête, clair et adapté est une meilleure base pour commencer."
-  ]
-},
-  {id: 15, slug:"comment-reconnaitre-une-arnaque-en-ligne-avant-de-cliquer",
-  category: "Technologie",
-  title: "Comment reconnaître une arnaque en ligne avant de cliquer",
-  description: "Apprends à repérer les messages suspects, les faux sites et les offres trop belles pour être vraies.",
-  image: "https://images.unsplash.com/photo-1563986768609-322da13575f3",
-  minutes: 3,
-  body: [
+    "Ne prétends jamais posséder une expérience ou un diplôme que tu n'as pas. Un CV honnête, clair et adapté est une meilleure base pour commencer.",
+    "## Un plan de CV simple",
+    "En haut : ton nom, tes coordonnées et un titre qui indique ce que tu cherches (« Stage de deux semaines en boulangerie » ou « Alternance en comptabilité »). Ensuite : ta formation, tes compétences, tes expériences ou projets, puis tes centres d’intérêt s’ils sont utiles pour le poste. Une page suffit pour un premier CV.",
+    "## Des idées de mentions utiles",
+    "Responsable d’un projet en classe, membre d’une association, entraînement sportif régulier, babysitting, aide à un proche, création d’un site ou d’une vidéo : tout ce qui montre sérieux, régularité et envie d’apprendre compte. Indique pour chacun ce que tu as fait précisément, avec un verbe d’action et, si possible, un résultat."
+  ]},
+  {id:15, slug:"comment-reconnaitre-une-arnaque-en-ligne-avant-de-cliquer", category:"Technologie", title:"Comment reconnaître une arnaque en ligne avant de cliquer", description:"Apprends à repérer les messages suspects, les faux sites et les offres trop belles pour être vraies.", image:"https://images.unsplash.com/photo-1563986768609-322da13575f3", minutes:3, body:[
     "Les arnaques en ligne peuvent prendre la forme d'un message de livraison, d'un faux avertissement de sécurité, d'un concours ou d'une offre exceptionnelle. Leur objectif est souvent de récupérer tes données personnelles ou bancaires.",
     "Méfie-toi des messages qui créent un sentiment d'urgence, réclament un paiement inattendu ou demandent un mot de passe, un code de validation ou des informations bancaires.",
     "Avant de cliquer, vérifie l'adresse complète de l'expéditeur et du site. Pour contacter une entreprise, ouvre son application officielle ou saisis toi-même son adresse habituelle dans ton navigateur.",
     "Un logo, une mise en page professionnelle ou un message sans faute ne prouvent pas qu'un site est fiable. Prends le temps de vérifier l'offre par une autre source indépendante.",
-    "En cas de doute, ne réponds pas et ne télécharge aucune pièce jointe. Si tu penses avoir été victime d'une arnaque, demande rapidement l'aide d'un adulte de confiance et utilise les plateformes de signalement adaptées."
-  ]
-},
-  {id: 16, slug:"preparer-ses-repas-de-la-semaine-sans-se-compliquer-la-vie",
-  category: "Cuisine",
-  title: "Préparer ses repas de la semaine sans se compliquer la vie",
-  description: "Organise quelques repas simples en utilisant les ingrédients déjà disponibles chez toi.",
-  image: "https://images.unsplash.com/photo-1547592180-85f173990554",
-  minutes: 3,
-  body: [
+    "En cas de doute, ne réponds pas et ne télécharge aucune pièce jointe. Si tu penses avoir été victime d'une arnaque, demande rapidement l'aide d'un adulte de confiance et utilise les plateformes de signalement adaptées.",
+    "## Les scénarios les plus courants",
+    "Un faux message de livraison qui demande quelques euros pour reprogrammer un colis. Un faux support technique qui affirme que ton appareil est infecté. Un faux gain à un concours auquel tu n’as pas participé. Un faux message d’un ami qui te demande un code reçu par SMS. Dans tous les cas, on cherche à te faire agir vite sans réfléchir.",
+    "## Les bons réflexes",
+    "Prends cinq minutes avant de répondre. Vérifie l’adresse de l’expéditeur et passe par le site officiel saisi toi-même. Ne donne jamais de code de validation. Pour signaler, tu peux utiliser signal-spam.fr pour les e-mails, le 33700 pour les SMS et internet-signalement.gouv.fr pour les contenus illicites. Si tu as déjà saisi des informations, change tes mots de passe et préviens ta banque et un adulte de confiance."
+  ]},
+  {id:16, slug:"preparer-ses-repas-de-la-semaine-sans-se-compliquer-la-vie", category:"Cuisine", title:"Préparer ses repas de la semaine sans se compliquer la vie", description:"Organise quelques repas simples en utilisant les ingrédients déjà disponibles chez toi.", image:"https://images.unsplash.com/photo-1547592180-85f173990554", minutes:3, body:[
     "Planifier quelques repas à l'avance peut faciliter les journées chargées. Pas besoin de prévoir un menu compliqué : commence par choisir plusieurs plats simples que tu aimes réaliser.",
     "Avant de faire une liste de courses, regarde les ingrédients disponibles dans les placards, le réfrigérateur et le congélateur, avec l'accord de la personne qui gère les courses et les repas à la maison.",
     "Choisis des recettes qui partagent certains ingrédients. Par exemple, des légumes peuvent servir dans un plat chaud, une salade ou une soupe, selon les quantités disponibles et l'envie du moment.",
     "Prépare une liste de courses adaptée aux repas prévus et aux portions nécessaires. Pense aussi aux jours où tu mangeras à l'extérieur pour éviter d'acheter trop.",
-    "Conserve les aliments selon les indications figurant sur leur emballage et respecte les règles de sécurité alimentaire. La planification doit rester souple : tu peux modifier le menu selon les imprévus."
+    "Conserve les aliments selon les indications figurant sur leur emballage et respecte les règles de sécurité alimentaire. La planification doit rester souple : tu peux modifier le menu selon les imprévus.",
+    "## Un exemple de semaine simple",
+    "Lundi : pâtes avec des légumes. Mardi : soupe préparée avec les légumes restants. Mercredi : omelette et salade. Jeudi : riz avec des légumineuses. Vendredi : restes accommodés en plat différent. Le week-end : un repas un peu plus élaboré. Il ne s’agit pas d’un menu à suivre à la lettre, mais d’une base que tu adaptes selon ce que tu as et ce dont tu as envie.",
+    "## Gagner du temps",
+    "Cuisine une plus grande quantité de base (riz, pâtes, légumes) que tu utiliseras sous différentes formes. Lave et coupe les légumes en une seule fois. Garde une ou deux solutions de secours pour les soirs où tu es fatigué, comme des œufs ou des pâtes, afin d’éviter de commander à l’extérieur par réflexe."
   ]},
-  {id:17, slug:"reduire-le-gaspillage-alimentaire-a-la-maison", category:"Environnement", title:"Réduire le gaspillage alimentaire à la maison", description:"Des réflexes simples pour mieux conserver les aliments et utiliser les restes.", image:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80", minutes:5, body:[
+  {id:17, slug:"reduire-le-gaspillage-alimentaire-a-la-maison", category:"Environnement", title:"Réduire le gaspillage alimentaire à la maison", description:"Des réflexes simples pour mieux conserver les aliments et utiliser les restes.", image:"https://images.unsplash.com/photo-1547592180-85f173990554?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Le gaspillage alimentaire commence souvent par des achats oubliés ou des aliments mal rangés. Avant de faire les courses, vérifie ce qui se trouve déjà dans le réfrigérateur, le congélateur et les placards.",
     "Range les produits les plus anciens devant les nouveaux pour penser à les utiliser en premier. Respecte les indications de conservation sur les emballages et garde le réfrigérateur à une température adaptée.",
     "Comprends la différence entre « à consommer jusqu’au » et « à consommer de préférence avant ». Pour les aliments concernés par une date limite de consommation, suis la date et les consignes indiquées.",
     "Planifie quelques repas plutôt qu’un menu rigide pour toute la semaine. Une liste de courses fondée sur les repas prévus aide à acheter des quantités adaptées.",
-    "Les restes peuvent parfois être réutilisés dans une soupe, une salade ou un plat composé, à condition qu’ils aient été conservés correctement. En cas de doute sur la sécurité d’un aliment, ne le consomme pas."
+    "Les restes peuvent parfois être réutilisés dans une soupe, une salade ou un plat composé, à condition qu’ils aient été conservés correctement. En cas de doute sur la sécurité d’un aliment, ne le consomme pas.",
+    "## Des idées anti-gaspi concrètes",
+    "Congèle le pain que tu ne mangeras pas à temps. Fais une soupe ou une compote avec les légumes et fruits un peu mous mais encore sains. Utilise les herbes fraîches en les congelant hachées dans un bac à glaçons. Mélange les restes de riz ou de pâtes avec des légumes pour un nouveau plat.",
+    "## Organiser le réfrigérateur",
+    "Place les aliments à consommer en priorité à l’avant, dans une zone bien visible. Note la date d’ouverture sur les produits entamés. Prends l’habitude de faire un petit tour des placards une fois par semaine avant de planifier les repas. En cas de doute sur un aliment, ne le consomme pas : la sécurité passe avant l’économie."
   ]},
-  {id:18, slug:"eviter-les-achats-impulsifs-grace-a-une-pause-de-reflexion", category:"Budget", title:"Éviter les achats impulsifs grâce à une pause de réflexion", description:"Une méthode facile pour distinguer une envie du moment d’un besoin réel.", image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80", minutes:4, body:[
+  {id:18, slug:"eviter-les-achats-impulsifs-grace-a-une-pause-de-reflexion", category:"Budget", title:"Éviter les achats impulsifs grâce à une pause de réflexion", description:"Une méthode facile pour distinguer une envie du moment d’un besoin réel.", image:"https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Une promotion, une vidéo ou une publicité peut donner envie d’acheter immédiatement. Pourtant, une réduction n’est intéressante que si l’achat correspond à un besoin et entre dans le budget prévu.",
     "Pour les achats non essentiels, essaie d’attendre un jour ou deux avant de décider. Note ce qui t’attire dans le produit et demande-toi à quelle fréquence tu l’utiliserais réellement.",
     "Compare le prix total, la livraison, les frais éventuels et les conditions de retour. Consulte plusieurs sources plutôt que de te fier à une seule publicité ou à un compte à rebours.",
     "Cherche une alternative : emprunter, réparer, acheter d’occasion ou utiliser un objet que tu possèdes déjà peut suffire.",
-    "Si l’achat concerne un compte ou un moyen de paiement familial, discute-en avec la personne qui le gère. L’objectif n’est pas de ne jamais se faire plaisir, mais de choisir en connaissance de cause."
+    "Si l’achat concerne un compte ou un moyen de paiement familial, discute-en avec la personne qui le gère. L’objectif n’est pas de ne jamais se faire plaisir, mais de choisir en connaissance de cause.",
+    "## La règle des 48 heures",
+    "Quand une envie d’acheter apparaît, note l’objet et le prix dans un carnet ou une liste, puis attends deux jours. Si l’envie a disparu, tu viens d’économiser. Si elle est toujours là, tu peux acheter plus sereinement, en sachant que ce n’est pas un coup de tête.",
+    "## Un calcul qui fait réfléchir",
+    "Si tu dépenses 20 euros par mois en achats impulsifs que tu regrettes ensuite, cela représente 240 euros par an. De quoi financer un vrai projet. Désactive aussi l’enregistrement automatique de ta carte sur les sites et supprime les applications d’achat que tu n’utilises pas : moins de tentation, moins de dépenses."
   ]},
-  {id:19, slug:"mieux-retenir-un-cours-avec-le-rappel-actif", category:"Études", title:"Mieux retenir un cours avec le rappel actif", description:"Une technique de révision qui consiste à retrouver les informations de mémoire.", image:"https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80", minutes:5, body:[
+  {id:19, slug:"mieux-retenir-un-cours-avec-le-rappel-actif", category:"Études", title:"Mieux retenir un cours avec le rappel actif", description:"Une technique de révision qui consiste à retrouver les informations de mémoire.", image:"https://images.unsplash.com/photo-1434030216411-0b793f4b4173?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Relire un cours peut donner une impression de maîtrise sans garantir que l’on saura l’expliquer ensuite. Le rappel actif consiste à fermer ses notes et à essayer de retrouver les idées importantes de mémoire.",
     "Après avoir étudié une petite partie du cours, cache tes notes et écris les notions dont tu te souviens, réponds à quelques questions ou explique le sujet avec tes propres mots.",
     "Rouvre ensuite le cours pour vérifier. Corrige les erreurs et repère les informations oubliées : ce sont elles qu’il sera utile de retravailler.",
     "Recommence à différents moments, par exemple le lendemain puis quelques jours plus tard. Des séances courtes et espacées peuvent aider à consolider les connaissances.",
-    "Adapte la méthode à la matière : vocabulaire à rappeler en langue, étapes à expliquer en sciences, dates et causes en histoire, ou exercices à refaire en mathématiques. Pour comprendre une notion difficile, demande de l’aide."
+    "Adapte la méthode à la matière : vocabulaire à rappeler en langue, étapes à expliquer en sciences, dates et causes en histoire, ou exercices à refaire en mathématiques. Pour comprendre une notion difficile, demande de l’aide.",
+    "## Un exemple de planning espacé",
+    "Jour 1 : tu apprends le chapitre et tu te testes à la fin. Jour 2 : tu refais un court test de rappel sans regarder ton cours. Jour 4 : tu reprends seulement les questions que tu avais ratées. Jour 8 : tu fais un dernier test plus large. Ce rythme est un repère, à adapter à tes examens.",
+    "## Des outils simples",
+    "Des fiches avec une question d’un côté et la réponse de l’autre, un quiz que tu te fabriques toi-même, ou un résumé que tu écris de mémoire puis que tu compares au cours. Expliquer la leçon à voix haute à quelqu’un, ou même à un objet, aide aussi à repérer ce que tu ne maîtrises pas encore."
   ]},
-  {id:20, slug:"verifier-une-information-trouvee-sur-internet", category:"Technologie", title:"Vérifier une information trouvée sur Internet", description:"Quelques étapes pour évaluer une affirmation avant de la partager.", image:"https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80", minutes:5, body:[
+  {id:20, slug:"verifier-une-information-trouvee-sur-internet", category:"Technologie", title:"Vérifier une information trouvée sur Internet", description:"Quelques étapes pour évaluer une affirmation avant de la partager.", image:"https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Une information très partagée n’est pas forcément exacte. Avant de la transmettre, prends le temps de vérifier d’où elle vient et ce qu’elle affirme réellement.",
     "Cherche le nom de l’auteur ou de l’organisme, la date de publication et les sources utilisées. Une ancienne information peut être présentée comme nouvelle ou sortie de son contexte.",
     "Compare l’affirmation avec plusieurs sources indépendantes et reconnues, notamment les documents originaux lorsqu’ils sont accessibles. Vérifie que les sources parlent bien du même sujet et de la même période.",
     "Lis au-delà du titre et méfie-toi des images recadrées, des citations sans contexte et des contenus qui cherchent surtout à provoquer une réaction immédiate.",
-    "Si tu ne peux pas confirmer une information, ne la présente pas comme un fait certain. Tu peux attendre, chercher davantage ou simplement ne pas la partager."
+    "Si tu ne peux pas confirmer une information, ne la présente pas comme un fait certain. Tu peux attendre, chercher davantage ou simplement ne pas la partager.",
+    "## Quatre questions à se poser",
+    "Qui l’affirme, et cette personne ou ce site est-il connu et fiable ? Quelle est la source de départ, et peut-on la consulter ? Quand l’information a-t-elle été publiée, et est-elle encore valable ? Pourquoi est-elle partagée : informer, vendre, faire réagir ou faire peur ?",
+    "## Vérifier une image ou une vidéo",
+    "Une image peut être ancienne, retouchée ou sortie de son contexte. Tu peux utiliser une recherche d’image inversée pour retrouver sa première publication. Certains médias et organismes publient des vérifications d’informations (fact-checking) : compare toujours plusieurs d’entre eux. Si une information est vraiment importante, par exemple sur la santé ou la loi, consulte les sources officielles."
   ]},
-  {id:21, slug:"comprendre-les-symboles-sur-les-etiquettes-des-vetements", category:"Maison", title:"Comprendre les symboles sur les étiquettes des vêtements", description:"Quelques repères pour laver et sécher ses vêtements en respectant les consignes.", image:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80", minutes:5, body:[
+  {id:21, slug:"comprendre-les-symboles-sur-les-etiquettes-des-vetements", category:"Maison", title:"Comprendre les symboles sur les étiquettes des vêtements", description:"Quelques repères pour laver et sécher ses vêtements en respectant les consignes.", image:"https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Les étiquettes d’entretien donnent des indications pour éviter d’abîmer un vêtement. Avant le premier lavage, prends quelques secondes pour les consulter.",
     "Le symbole de la cuve indique les consignes de lavage et la température maximale lorsqu’elle est précisée. Une main dans la cuve signifie généralement un lavage à la main.",
     "Le triangle concerne le blanchiment, le carré le séchage et le fer le repassage. Une croix sur un symbole indique que l’action correspondante est à éviter. Les traits et les points peuvent préciser les précautions à prendre.",
     "En cas de doute, choisis une méthode douce compatible avec l’étiquette et sépare les couleurs qui risquent de déteindre. Ne mélange pas les produits ménagers et respecte toujours leurs instructions.",
-    "Un entretien adapté peut aider les vêtements à rester en bon état plus longtemps. Si l’étiquette est illisible, cherche les recommandations du fabricant pour le modèle concerné."
+    "Un entretien adapté peut aider les vêtements à rester en bon état plus longtemps. Si l’étiquette est illisible, cherche les recommandations du fabricant pour le modèle concerné.",
+    "## Les repères à connaître",
+    "Plus le chiffre dans la cuve est bas, plus la température maximale de lavage est basse. Un trait sous la cuve indique un programme plus doux, deux traits un programme encore plus délicat. Pour le séchage en machine, un cercle dans un carré indique que c’est possible, et une croix que c’est à éviter. Pour le repassage, le nombre de points indique la température du fer.",
+    "## Quelques astuces",
+    "Lave les vêtements neufs à part la première fois s’ils risquent de déteindre. Retourne les vêtements fragiles ou imprimés avant le lavage. Ferme les fermetures éclair et les velcros. Ne surcharge pas la machine : les vêtements se lavent mieux et s’abîment moins. En cas de doute sur une matière délicate, privilégie un lavage doux à basse température."
   ]},
-  {id:22, slug:"ecrire-un-e-mail-clair-et-poli", category:"Vie professionnelle", title:"Écrire un e-mail clair et poli", description:"Une structure simple pour transmettre une demande ou une information sans ambiguïté.", image:"https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=900&q=80", minutes:4, body:[
+  {id:22, slug:"ecrire-un-e-mail-clair-et-poli", category:"Vie professionnelle", title:"Écrire un e-mail clair et poli", description:"Une structure simple pour transmettre une demande ou une information sans ambiguïté.", image:"https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Un e-mail efficace permet à la personne qui le reçoit de comprendre rapidement pourquoi tu écris et ce que tu attends d’elle.",
     "Choisis un objet court et précis, par exemple « Question sur le rendez-vous de mardi ». Évite les objets vagues comme « Bonjour » ou « Important ».",
     "Commence par une formule de salutation adaptée, puis explique le contexte en une ou deux phrases. Présente ta demande clairement et ajoute les informations nécessaires, sans noyer le message dans des détails inutiles.",
     "Termine par une formule de politesse et relis le message avant de l’envoyer. Vérifie le destinataire, les pièces jointes annoncées et l’absence d’informations personnelles qui n’ont pas besoin d’être partagées.",
-    "Si tu écris à plusieurs personnes, utilise les champs de destinataires avec attention et évite de transmettre des coordonnées privées sans raison."
+    "Si tu écris à plusieurs personnes, utilise les champs de destinataires avec attention et évite de transmettre des coordonnées privées sans raison.",
+    "## Un modèle à adapter",
+    "Objet : Question sur le rendez-vous de mardi. Bonjour Madame, Monsieur, je suis en classe de Seconde et je souhaiterais savoir si le rendez-vous de mardi à 14 h est maintenu. Pourriez-vous me le confirmer avant lundi ? Je vous remercie par avance pour votre réponse. Cordialement, Prénom Nom.",
+    "## Les erreurs à éviter",
+    "Un objet vide, un message trop long avec plusieurs demandes mélangées, un ton trop familier avec une personne que tu ne connais pas, ou un oubli de pièce jointe. Évite d’écrire en majuscules, qui donne l’impression de crier. Vérifie l’adresse d’expéditeur de ta messagerie : une adresse sérieuse donne une meilleure première impression. Prends l’habitude de relire le message à voix haute avant de l’envoyer."
   ]},
-  {id:23, slug:"faire-le-tri-dans-les-notifications-de-son-telephone", category:"Technologie", title:"Faire le tri dans les notifications de son téléphone", description:"Garde les alertes vraiment utiles et réduis les interruptions inutiles.", image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80", minutes:4, body:[
+  {id:23, slug:"faire-le-tri-dans-les-notifications-de-son-telephone", category:"Technologie", title:"Faire le tri dans les notifications de son téléphone", description:"Garde les alertes vraiment utiles et réduis les interruptions inutiles.", image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Les notifications peuvent être pratiques, mais lorsqu’elles sont nombreuses, elles interrompent souvent une activité ou rendent plus difficile la concentration.",
     "Ouvre les réglages de ton téléphone et regarde quelles applications envoient des alertes. Désactive celles qui ne sont pas utiles au quotidien, en conservant les notifications importantes pour ta sécurité ou tes communications.",
     "Pour certaines applications, tu peux garder les messages directs mais couper les promotions, les recommandations ou les alertes de nouveaux contenus.",
     "Utilise le mode concentration ou ne pas déranger pendant les devoirs, la lecture ou les moments de repos, en configurant les exceptions dont tu as besoin.",
-    "Revois ces réglages après quelques jours. Le but n’est pas de tout désactiver, mais de choisir consciemment ce qui mérite ton attention."
+    "Revois ces réglages après quelques jours. Le but n’est pas de tout désactiver, mais de choisir consciemment ce qui mérite ton attention.",
+    "## Un tri en trois catégories",
+    "Les notifications indispensables : messages de proches, alarmes, informations de sécurité. Les notifications utiles mais non urgentes : actualités choisies, rappels, que tu peux regrouper à certaines heures. Les notifications superflues : promotions, suggestions, « quelqu’un a publié » : à couper.",
+    "## Des réglages qui aident",
+    "Programme un mode « ne pas déranger » pendant les devoirs et la nuit, pose ton téléphone dans une autre pièce pendant le sommeil, et désactive les pastilles rouges sur les applications qui t’attirent le plus. Consulte tes messages à des moments choisis plutôt qu’en permanence. Tu constateras vite que tu gagnes en concentration et en calme."
   ]},
-  {id:24, slug:"trier-ses-dechets-sans-se-tromper", category:"Environnement", title:"Trier ses déchets sans se tromper", description:"Une méthode pour vérifier les consignes locales et éviter les erreurs de tri les plus courantes.", image:"https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=900&q=80", minutes:5, body:[
+  {id:24, slug:"trier-ses-dechets-sans-se-tromper", category:"Environnement", title:"Trier ses déchets sans se tromper", description:"Une méthode pour vérifier les consignes locales et éviter les erreurs de tri les plus courantes.", image:"https://images.unsplash.com/photo-1605600659873-d808a13e4d9a?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Les consignes de tri peuvent varier selon la commune et le service de collecte. En cas de doute, consulte les informations de ta mairie ou le guide local plutôt que de deviner.",
     "Vide les emballages et suis les consignes indiquées pour les contenants. Il n’est généralement pas nécessaire de les laver longuement, sauf indication locale particulière.",
     "Les piles, batteries, appareils électriques, ampoules et certains produits chimiques ne doivent pas être jetés n’importe où. Dépose-les dans les points de collecte prévus à cet effet.",
     "Ne place pas un objet dans le bac de recyclage uniquement parce qu’il est en plastique ou en métal : vérifie la règle applicable à cet objet dans ta commune.",
-    "Si un emballage comporte une consigne ou un pictogramme, lis-le attentivement. Les guides officiels de tri locaux restent la référence pour les cas particuliers."
+    "Si un emballage comporte une consigne ou un pictogramme, lis-le attentivement. Les guides officiels de tri locaux restent la référence pour les cas particuliers.",
+    "## Les erreurs de tri fréquentes",
+    "Mettre un emballage dans un sac fermé au lieu de le laisser libre dans le bac, imbriquer plusieurs emballages les uns dans les autres, jeter de la vaisselle cassée ou des mouchoirs dans le bac de recyclage, ou y déposer des objets qui ne sont pas des emballages. Les règles exactes dépendent de ton territoire : le guide de ta commune a toujours le dernier mot.",
+    "## Aller plus loin",
+    "Garde un petit bac ou un sac pour les objets à rapporter (piles, ampoules, petits appareils) et dépose-les dans un magasin ou une déchèterie qui les accepte. Réduire les déchets à la source, en achetant moins d’emballages, reste plus efficace que bien trier : le meilleur déchet est celui qu’on ne produit pas."
   ]},
-  {id:25, slug:"reussir-un-travail-de-groupe-sans-tout-faire-au-dernier-moment", category:"Vie professionnelle", title:"Réussir un travail de groupe sans tout faire au dernier moment", description:"Répartis les tâches, clarifie les responsabilités et prévois un point d’avancement.", image:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80", minutes:5, body:[
+  {id:25, slug:"reussir-un-travail-de-groupe-sans-tout-faire-au-dernier-moment", category:"Vie professionnelle", title:"Réussir un travail de groupe sans tout faire au dernier moment", description:"Répartis les tâches, clarifie les responsabilités et prévois un point d’avancement.", image:"https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Un travail collectif fonctionne mieux lorsque tout le monde comprend l’objectif, la date limite et le résultat attendu.",
     "Au début, découpez le projet en petites tâches concrètes. Pour chacune, indiquez qui s’en occupe et quand le travail doit être prêt.",
     "Choisissez un endroit partagé pour conserver les documents et utilisez des noms de fichiers faciles à comprendre. Évitez de multiplier les versions sans savoir laquelle est la bonne.",
     "Prévoyez un court point d’avancement avant la date finale. Cela permet de repérer les difficultés assez tôt et de rééquilibrer les tâches si nécessaire.",
-    "À la fin, relisez l’ensemble ensemble pour vérifier la cohérence, les sources, l’orthographe et le respect des consignes. Reconnaître le travail de chacun aide aussi à garder une bonne ambiance."
+    "À la fin, relisez l’ensemble ensemble pour vérifier la cohérence, les sources, l’orthographe et le respect des consignes. Reconnaître le travail de chacun aide aussi à garder une bonne ambiance.",
+    "## Répartir les rôles",
+    "Selon la taille du groupe, nommez quelqu’un qui coordonne, quelqu’un qui rassemble les documents, quelqu’un qui relit et quelqu’un qui prépare la présentation. Ces rôles peuvent tourner d’un projet à l’autre. L’important est que chacun sache ce qu’on attend de lui et pour quand.",
+    "## Si ça se passe mal",
+    "Si un membre ne participe pas, commence par lui en parler calmement, sans accusation, pour comprendre ce qui bloque. Si la situation ne s’améliore pas, préviens l’enseignant ou le responsable à temps, avant la date finale. Garde une trace de ce que chacun a réalisé : cela aide à être équitable. Pense aussi à fixer une réunion courte plutôt que de multiplier les messages."
   ]},
-  {id:26, slug:"preparer-une-petite-trousse-pratique-pour-les-sorties", category:"Maison", title:"Préparer une petite trousse pratique pour les sorties", description:"Une checklist modulable pour éviter les oublis lors d’une journée à l’extérieur.", image:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80", minutes:4, body:[
+  {id:26, slug:"preparer-une-petite-trousse-pratique-pour-les-sorties", category:"Maison", title:"Préparer une petite trousse pratique pour les sorties", description:"Une checklist modulable pour éviter les oublis lors d’une journée à l’extérieur.", image:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Pour une sortie, une petite liste vérifiée avant de partir évite les oublis de dernière minute. Adapte son contenu à la durée, à la météo, au lieu et aux activités prévues.",
     "Selon la sortie, pense à prendre de l’eau, un titre de transport ou les informations de trajet, un téléphone suffisamment chargé et les coordonnées utiles.",
     "Regarde la météo et prévois des vêtements adaptés. Pour une longue marche ou une activité particulière, consulte les recommandations de l’organisateur.",
     "Si tu emportes des clés, des papiers ou d’autres objets importants, range-les dans un endroit sûr et évite d’exposer inutilement des informations personnelles.",
-    "Après la sortie, remets les objets à leur place et complète ce qui manque. Garde la liste simple : elle doit aider, pas transformer la préparation en corvée."
+    "Après la sortie, remets les objets à leur place et complète ce qui manque. Garde la liste simple : elle doit aider, pas transformer la préparation en corvée.",
+    "## Trois exemples de listes",
+    "Pour une journée en ville : de l’eau, un titre de transport, une batterie externe si besoin, un petit sac. Pour une randonnée : eau en quantité suffisante, vêtements adaptés à la météo, en-cas, chaussures confortables, protection contre le soleil ou la pluie. Pour la plage : crème solaire, chapeau, serviette, eau.",
+    "## Penser à la sécurité",
+    "Prévois quelques pansements et tes médicaments personnels prescrits si tu en as besoin. Prévenir un proche de l’endroit où tu vas et de l’heure de retour est un réflexe simple, surtout pour une sortie en nature. Garde à portée de main un numéro à appeler en cas de problème. Les numéros d’urgence changent selon le pays : vérifie ceux du lieu où tu te trouves."
   ]},
-  {id:27, slug:"sauvegarder-ses-photos-et-documents-importants", category:"Technologie", title:"Sauvegarder ses photos et documents importants", description:"Réduis le risque de perdre tes fichiers en prévoyant une copie de secours.", image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80", minutes:5, body:[
+  {id:27, slug:"sauvegarder-ses-photos-et-documents-importants", category:"Technologie", title:"Sauvegarder ses photos et documents importants", description:"Réduis le risque de perdre tes fichiers en prévoyant une copie de secours.", image:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Un téléphone ou un ordinateur peut être perdu, endommagé ou tomber en panne. Une sauvegarde permet de récupérer certains fichiers si l’original devient inaccessible.",
     "Choisis les documents qui comptent vraiment : photos, travaux scolaires, créations et fichiers personnels importants. Supprime les doublons seulement après avoir vérifié leur contenu.",
     "Selon tes moyens, conserve une copie sur un support externe ou dans un service en ligne fiable. Un compte en ligne doit être protégé par un mot de passe robuste et, si possible, la double authentification.",
     "Vérifie les paramètres de confidentialité, l’espace disponible et les conditions du service choisi. Ne place pas de documents sensibles dans un dossier partagé publiquement.",
-    "De temps en temps, ouvre quelques fichiers sauvegardés pour confirmer qu’ils sont lisibles. Une sauvegarde dont on n’a jamais vérifié le fonctionnement peut réserver de mauvaises surprises."
+    "De temps en temps, ouvre quelques fichiers sauvegardés pour confirmer qu’ils sont lisibles. Une sauvegarde dont on n’a jamais vérifié le fonctionnement peut réserver de mauvaises surprises.",
+    "## La règle 3-2-1",
+    "Une méthode très répandue consiste à avoir trois copies de tes fichiers importants, sur deux supports différents, dont une copie conservée ailleurs que chez toi, par exemple dans un service en ligne fiable. Si l’original et la copie sont au même endroit, un incident comme un vol ou un dégât des eaux peut les faire disparaître ensemble.",
+    "## Une habitude facile",
+    "Choisis un jour par mois pour copier les nouveaux fichiers importants. Note où se trouvent tes sauvegardes. Protège-les par un mot de passe solide, et ne partage jamais le lien d’un dossier contenant des documents personnels avec des personnes que tu ne connais pas. Teste de temps en temps la restauration d’un fichier pour être certain que tout fonctionne."
   ]},
-  {id:28, slug:"comprendre-le-prix-au-kilo-ou-au-litre-pour-comparer-deux-produits", category:"Budget", title:"Comprendre le prix au kilo ou au litre pour comparer deux produits", description:"Utilise le prix à l’unité de mesure pour comparer des formats différents.", image:"https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=80", minutes:4, body:[
+  {id:28, slug:"comprendre-le-prix-au-kilo-ou-au-litre-pour-comparer-deux-produits", category:"Budget", title:"Comprendre le prix au kilo ou au litre pour comparer deux produits", description:"Utilise le prix à l’unité de mesure pour comparer des formats différents.", image:"https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Deux produits peuvent afficher des prix différents parce que leur quantité n’est pas la même. Le prix au kilo ou au litre aide à comparer des formats sur une base commune.",
     "Repère le prix à l’unité de mesure indiqué sur l’étiquette. Si tu dois le calculer, divise le prix par la quantité exprimée en kilogrammes ou en litres.",
     "Par exemple, un paquet de 500 grammes coûte 3 euros : il revient à 6 euros le kilo, car 500 grammes correspondent à 0,5 kilo et 3 ÷ 0,5 = 6.",
     "Le format le moins cher au kilo n’est pas toujours le meilleur choix si tu n’utilises pas toute la quantité ou si le produit risque de se perdre. Compare aussi la qualité et tes besoins.",
-    "Les prix à l’unité de mesure sont un outil de comparaison, pas une obligation d’acheter le plus grand format. Choisis la quantité que tu pourras réellement utiliser."
+    "Les prix à l’unité de mesure sont un outil de comparaison, pas une obligation d’acheter le plus grand format. Choisis la quantité que tu pourras réellement utiliser.",
+    "## Un deuxième exemple",
+    "Un pack de six bouteilles de 33 centilitres à 2,40 euros contient 1,98 litre. Cela fait environ 1,21 euro le litre. Une bouteille de 1,5 litre à 1,20 euro revient, elle, à 0,80 euro le litre : elle est donc moins chère au litre, mais elle n’a pas la même praticité.",
+    "## Les pièges à connaître",
+    "Regarde la quantité nette indiquée sur l’emballage : certains produits conservent le même emballage avec moins de contenu. Vérifie que les deux produits sont exprimés dans la même unité avant de comparer. Un prix au kilo plus bas ne sert à rien si tu jettes une partie du produit : préfère le format que tu consommeras entièrement."
   ]},
   {id:29, slug:"preparer-son-sac-et-ses-affaires-la-veille", category:"Études", title:"Préparer son sac et ses affaires la veille", description:"Une routine courte pour commencer la journée avec moins d’oublis.", image:"https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Préparer ses affaires la veille peut rendre le départ du matin plus simple, surtout lorsque plusieurs cours ou activités sont prévus.",
     "Consulte l’emploi du temps et les consignes, puis rassemble les cahiers, livres et fournitures nécessaires. Vérifie aussi les devoirs ou documents à rendre.",
     "Place les objets indispensables au même endroit, par exemple les clés ou le titre de transport, afin de ne pas les chercher au dernier moment.",
     "Si tu utilises un appareil pour travailler, vérifie qu’il est chargé et que les fichiers dont tu as besoin sont accessibles. Évite toutefois de partager tes identifiants avec d’autres personnes.",
-    "Garde cette routine courte et adapte-la à tes besoins. Une checklist de quelques lignes suffit souvent ; elle doit te faire gagner du temps, pas en prendre davantage."
+    "Garde cette routine courte et adapte-la à tes besoins. Une checklist de quelques lignes suffit souvent ; elle doit te faire gagner du temps, pas en prendre davantage.",
+    "## Une checklist de dix minutes",
+    "Consulte l’emploi du temps du lendemain. Prépare les cahiers, le matériel et les documents à rendre. Mets ta tenue de sport ou ton instrument s’il y en a besoin. Charge ton téléphone ou ton ordinateur. Pose le sac près de la porte avec tes clés. Vérifie que ta gourde est propre.",
+    "## Pourquoi ça aide",
+    "Quand tout est prêt la veille, le matin est plus calme et tu risques moins d’oublier quelque chose d’important. Si tu oublies régulièrement la même chose, note-la sur un papier collé à la porte de ta chambre. Après quelques jours, cette routine devient un automatisme qui ne te prend presque plus de temps."
   ]},
-  {id:30, slug:"lire-une-recette-et-preparer-ses-ingredients-avant-de-commencer", category:"Cuisine", title:"Lire une recette et préparer ses ingrédients avant de commencer", description:"Une méthode simple pour cuisiner plus sereinement et limiter les oublis.", image:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=900&q=80", minutes:4, body:[
+  {id:30, slug:"lire-une-recette-et-preparer-ses-ingredients-avant-de-commencer", category:"Cuisine", title:"Lire une recette et préparer ses ingrédients avant de commencer", description:"Une méthode simple pour cuisiner plus sereinement et limiter les oublis.", image:"https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=900&q=80", minutes:3, body:[
     "Avant de commencer une recette, lis-la du début à la fin. Cela permet de repérer les temps d’attente, les étapes qui doivent se suivre et le matériel nécessaire.",
     "Vérifie que tu as tous les ingrédients et regarde les quantités. Si tu souhaites modifier les portions, adapte les quantités avec attention, car certains ingrédients ne se multiplient pas toujours de façon parfaitement simple.",
     "Prépare le matériel et mesure les ingrédients avant de lancer les étapes qui demandent d’aller vite. Cette organisation limite les oublis et évite de devoir chercher un ustensile pendant la cuisson.",
     "Respecte les consignes de sécurité, notamment avec les couteaux, le four et les plaques chaudes. Demande l’aide d’un adulte si une étape dépasse ton expérience.",
-    "Pendant la préparation, nettoie progressivement ce qui peut l’être sans danger et conserve les aliments selon les indications adaptées. À la fin, vérifie que les appareils de cuisson sont éteints."
+    "Pendant la préparation, nettoie progressivement ce qui peut l’être sans danger et conserve les aliments selon les indications adaptées. À la fin, vérifie que les appareils de cuisson sont éteints.",
+    "## La « mise en place »",
+    "Les cuisiniers appellent ainsi la préparation de tous les ingrédients avant de commencer : légumes lavés et coupés, épices mesurées, matériel sorti. C’est ce qui permet de cuisiner sans stress, surtout pour les recettes où l’on doit enchaîner vite les étapes.",
+    "## Pendant et après la cuisson",
+    "Reste près des plaques de cuisson et ne laisse jamais de poêle chaude sans surveillance. Goûte en cours de route pour ajuster l’assaisonnement quand c’est possible. Prends l’habitude de ranger et de laver au fur et à mesure, pour ne pas te retrouver avec une montagne de vaisselle à la fin. Si une recette te paraît trop compliquée, commence par une version simplifiée ou demande l’aide d’un adulte."
   ]},
   {id:31, slug:"la-regle-des-50-30-20-un-budget-simple-a-appliquer", category:"Budget", title:"La règle des 50/30/20 : un budget simple à appliquer", description:"Répartis ton argent entre besoins, envies et épargne avec une méthode facile à retenir.", image:"/img/budget.jpg", date:"2026-11-05", minutes:5, body:[
     "La règle des 50/30/20 est une méthode de budget très simple : tu répartis tes revenus en trois grandes parts. Ce n’est pas une loi, mais un repère pratique pour savoir où va ton argent et ce que tu peux mettre de côté.",
