@@ -2,6 +2,21 @@
   var KEY='ecoastuce-consent';
   var ADS='ca-pub-1800081150235092';
   var GA='G-QDDWLW0SJZ';
+  // Identifiants des blocs d'annonces (AdSense > Annonces > Par bloc d'annonces > Annonce display responsive).
+  // Tant qu'un identifiant est vide, l'emplacement correspondant reste invisible : aucune case vide.
+  var SLOTS={article_mid:'',article_end:''};
+
+  function renderAds(){
+    var els=document.querySelectorAll('.eco-ad[data-slot]');
+    for(var i=0;i<els.length;i++){
+      var el=els[i],id=SLOTS[el.getAttribute('data-slot')];
+      if(!id||el.getAttribute('data-ready')) continue;
+      el.setAttribute('data-ready','1');
+      el.innerHTML='<small>Publicité</small><ins class="adsbygoogle" style="display:block" data-ad-client="'+ADS+'" data-ad-slot="'+id+'" data-ad-format="auto" data-full-width-responsive="true"></ins>';
+      el.hidden=false;
+      try{(window.adsbygoogle=window.adsbygoogle||[]).push({});}catch(e){}
+    }
+  }
 
   function loadGoogle(){
     if(window.__ecoGoogleLoaded) return;
@@ -19,6 +34,7 @@
     window.gtag=function(){dataLayer.push(arguments)};
     gtag('js',new Date());
     gtag('config',GA);
+    renderAds();
   }
 
   function removeBanner(){

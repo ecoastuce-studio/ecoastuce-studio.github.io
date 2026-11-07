@@ -79,7 +79,29 @@ const bigImage = (u, w = 1200) => /^https?:/.test(u) ? u + (u.includes("?") ? ""
 const absUrl = u => /^https?:/.test(u) ? u : SITE + u;
 const FR_MONTHS = ["janvier","février","mars","avril","mai","juin","juillet","août","septembre","octobre","novembre","décembre"];
 const frDate = d => { const [y, m, j] = d.split("-").map(Number); return `${j === 1 ? "1er" : j} ${FR_MONTHS[m - 1]} ${y}`; };
-const renderBody = body => body.map(p => p.startsWith("## ") ? `<h2>${esc(p.slice(3))}</h2>` : `<p>${esc(p)}</p>`).join("\n");
+// Corps de l'article. Avec withAd, un emplacement publicitaire est inséré au milieu, juste avant un sous-titre
+// (jamais collé à un titre ni en tout début d'article).
+function renderBody(body, withAd = false) {
+  const html = body.map(p => p.startsWith("## ") ? `<h2>${esc(p.slice(3))}</h2>` : `<p>${esc(p)}</p>`);
+  if (withAd) {
+    const heads = body.map((p, i) => p.startsWith("## ") ? i : -1).filter(i => i > 2);
+    const at = heads.length ? heads[Math.floor((heads.length - 1) / 2)] : (body.length >= 5 ? 3 : -1);
+    if (at > 0) html.splice(at, 0, `<aside class="eco-ad" data-slot="article_mid" aria-label="Publicité" hidden></aside>`);
+  }
+  return html.join("\n");
+}
+
+// Articles recommandés : même catégorie ou mots proches dans le titre/la description (toutes catégories confondues).
+const STOP = new Set("avec sans pour dans plus mais comme cette leurs vous nous tout tous votre quand entre chez sont etre avoir faire fait sur par des les une aux ses son leur qui que quoi dont aussi tres bien deux trois premier moins comment pourquoi quelques simples simple petit petits".split(" "));
+const words = a => new Set((a.title + " " + a.description).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().split(/[^a-z0-9]+/).filter(w => w.length > 3 && !STOP.has(w)));
+function relatedFor(a) {
+  const wa = words(a);
+  return articles.filter(x => x.id !== a.id).map(x => {
+    let score = x.category === a.category ? 2 : 0;
+    for (const w of words(x)) if (wa.has(w)) score += 3;
+    return { x, score };
+  }).sort((p, q) => q.score - p.score || q.x.id - p.x.id).slice(0, 4).map(p => p.x);
+}
 const thumb = u => bigImage(u, 700);
 const catSlug = c => slugify(c);
 const CATEGORIES = [...new Set(articles.map(a => a.category))]
@@ -102,6 +124,7 @@ function head({ title, description, url, image, type = "website", extra = "" }) 
 <meta name="theme-color" content="#091827">
 <link rel="canonical" href="${url}">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
 <meta property="og:type" content="${type}">
 <meta property="og:site_name" content="EcoAstuce">
 <meta property="og:locale" content="fr_FR">
@@ -134,7 +157,7 @@ function articlePage(a) {
   const sorted = [...articles].sort((x, y) => x.id - y.id);
   const i = sorted.findIndex(x => x.id === a.id);
   const prev = sorted[i - 1], next = sorted[i + 1];
-  const related = byRecent.filter(x => x.id !== a.id && x.category === a.category).slice(0, 3);
+  const related = relatedFor(a);
 
   const jsonld = ld({
     "@context": "https://schema.org",
@@ -159,7 +182,7 @@ function articlePage(a) {
 <p class="lead">${esc(a.description)}</p>
 <img class="cover" src="${esc(img)}" alt="${esc(a.title)}" width="1200" height="675" fetchpriority="high" onerror="this.style.display='none'">
 <article class="article-body">
-${renderBody(a.body)}
+${renderBody(a.body, true)}
 </article>
 <div class="share">
 <button class="btn btn-ghost" id="copy" type="button">🔗 Copier le lien</button>
@@ -167,11 +190,12 @@ ${renderBody(a.body)}
 <a class="btn btn-pin" href="${esc(pinUrl)}" target="_blank" rel="noopener noreferrer">📌 Épingler</a>
 <small id="copied" role="status" aria-live="polite"></small>
 </div>
+<aside class="eco-ad" data-slot="article_end" aria-label="Publicité" hidden></aside>
 ${related.length ? `<section class="related" aria-labelledby="related-title">
 <h2 id="related-title">À lire aussi</h2>
-<ul>
-${related.map(r => `<li><a href="/articles/${r.slug}.html">${esc(r.title)}</a></li>`).join("\n")}
-</ul>
+<div class="cards">
+${related.map(r => `<a class="card" href="/articles/${r.slug}.html"><img src="${esc(thumb(r.image))}" alt="" loading="lazy" width="700" height="300" onerror="this.style.display='none'"><div><span class="tag">${esc(r.category)} · ${r.minutes} min</span><h3>${esc(r.title)}</h3><p>${esc(r.description)}</p></div></a>`).join("\n")}
+</div>
 </section>` : ""}
 <div class="pager">
 ${prev ? `<a class="prev" href="/articles/${prev.slug}.html"><small>← Article précédent</small>${esc(prev.title)}</a>` : "<span></span>"}

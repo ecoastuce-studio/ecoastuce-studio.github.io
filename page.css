@@ -64,3 +64,10 @@ footer a:hover{color:var(--mint)}
 .btn-pin:hover{filter:brightness(.92)}
 .page .article-body h2{margin:1.6em 0 .5em;font-size:1.3rem}
 .meta time{white-space:nowrap}
+.eco-ad{margin:30px auto;text-align:center;max-width:100%;overflow:hidden;clear:both}
+.eco-ad[hidden]{display:none}
+.eco-ad small{display:block;color:var(--muted);font-size:.7rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:6px}
+.related .cards{margin-top:14px}
+.related .card h3{font-size:1rem;margin:8px 0 6px;line-height:1.35}
+.related{background:transparent;border:0;padding:0}
+.card img[src^="/img/"]{object-position:center 88%}
