@@ -27,12 +27,19 @@ const cover = c => `<body style="${BASE}width:1200px;height:675px;background:${g
 const og = a => `<body style="${BASE}width:1200px;height:630px;background:${grad(a.category)};display:flex;flex-direction:column;justify-content:center;padding:0 80px">${circles}<div>${pill(a.category, 28)}</div><div style="font-size:${a.title.length > 70 ? 56 : 66}px;font-weight:800;line-height:1.1;letter-spacing:-2px;margin:28px 0 36px;max-width:1000px">${esc(a.title)}</div>${brand(34)}</body>`;
 const pin = a => `<body style="${BASE}width:1000px;height:1500px;background:${grad(a.category)};display:flex;flex-direction:column;justify-content:space-between;padding:110px 90px">${circles}<div>${pill(a.category, 34)}</div><div style="font-size:${a.title.length > 70 ? 84 : 98}px;font-weight:800;line-height:1.08;letter-spacing:-3px">${esc(a.title)}</div><div><div style="font-size:38px;color:#cfe6dd;margin-bottom:34px">${esc(a.description)}</div>${brand(54)}<div style="font-size:30px;color:#9fd6bf;margin-top:10px">ecoastuce-studio.github.io</div></div></body>`;
 
+// Variante B des pins (fond clair) : Pinterest favorise les épingles différentes pour une même page.
+const pinB = a => `<body style="${BASE}width:1000px;height:1500px;background:#f4f8fb;color:#102334;display:flex;flex-direction:column;justify-content:space-between;padding:0">
+<div style="background:${grad(a.category)};color:#fff;padding:90px 90px 70px"><div style="font-size:54px;font-weight:800;letter-spacing:-1px">🍃 Eco<span style="color:#66edaa">Astuce</span></div><div style="margin-top:34px">${pill(a.category, 34)}</div></div>
+<div style="padding:0 90px"><div style="font-size:${a.title.length > 70 ? 82 : 96}px;font-weight:800;line-height:1.08;letter-spacing:-3px;color:#102334">${esc(a.title)}</div><div style="width:140px;height:12px;background:#66edaa;border-radius:6px;margin:44px 0 36px"></div><div style="font-size:42px;line-height:1.35;color:#3e5366">${esc(a.description)}</div></div>
+<div style="background:#102334;color:#66edaa;padding:56px 90px;font-size:40px;font-weight:800">Lire l’article · ecoastuce-studio.github.io</div></body>`;
+
 (async () => {
   const jobs = [];
   for (const c of [...new Set(articles.map(a => a.category))]) jobs.push([cover(c), 1200, 675, `img/${slugify(c)}.jpg`]);
   for (const a of articles) {
     const slug = a.slug; if (!slug) throw new Error("slug manquant : lance d'abord node build-articles.js");
     jobs.push([og(a), 1200, 630, `og/${slug}.jpg`], [pin(a), 1000, 1500, `pins/${slug}.jpg`]);
+    if (a.id >= 61) jobs.push([pinB(a), 1000, 1500, `pins/b/${slug}.jpg`]);
   }
   const b = await chromium.launch(); const p = await b.newPage();
   for (const [body, w, h, out] of jobs) {

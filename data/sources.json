@@ -1,0 +1,446 @@
+{
+ "catalog": {
+  "service-public": {
+   "label": "Service-Public.fr",
+   "desc": "Droits et démarches, informations officielles",
+   "url": "https://www.service-public.fr"
+  },
+  "economie-gouv": {
+   "label": "Economie.gouv.fr",
+   "desc": "Informations pour les particuliers et les consommateurs",
+   "url": "https://www.economie.gouv.fr"
+  },
+  "dgccrf": {
+   "label": "DGCCRF",
+   "desc": "Protection des consommateurs : arnaques, étiquetage, droits",
+   "url": "https://www.economie.gouv.fr/dgccrf"
+  },
+  "inc": {
+   "label": "Institut national de la consommation",
+   "desc": "Conseils et comparaisons pour les consommateurs",
+   "url": "https://www.inc-conso.fr"
+  },
+  "mesquestionsdargent": {
+   "label": "Mes questions d’argent",
+   "desc": "Éducation financière par la Banque de France",
+   "url": "https://www.mesquestionsdargent.fr"
+  },
+  "abe-infoservice": {
+   "label": "ABE Infoservice",
+   "desc": "Banque, assurance et épargne : informations pratiques",
+   "url": "https://www.abe-infoservice.fr"
+  },
+  "amf": {
+   "label": "Autorité des marchés financiers",
+   "desc": "Épargne, placements et arnaques financières",
+   "url": "https://www.amf-france.org"
+  },
+  "ademe": {
+   "label": "ADEME",
+   "desc": "Agence de la transition écologique : écogestes et énergie",
+   "url": "https://www.ademe.fr"
+  },
+  "energie-info": {
+   "label": "Énergie-Info",
+   "desc": "Site du médiateur national de l’énergie : factures, offres, droits",
+   "url": "https://www.energie-info.fr"
+  },
+  "ecologie": {
+   "label": "Ministère de la Transition écologique",
+   "desc": "Politiques et informations officielles sur l’environnement",
+   "url": "https://www.ecologie.gouv.fr"
+  },
+  "consignes-tri": {
+   "label": "Consignes de tri",
+   "desc": "Les règles de tri selon ta commune",
+   "url": "https://www.consignesdetri.fr"
+  },
+  "longue-vie": {
+   "label": "Longue vie aux objets",
+   "desc": "Réparer, réutiliser, donner : informations officielles",
+   "url": "https://longuevieauxobjets.ecologie.gouv.fr"
+  },
+  "cybermalveillance": {
+   "label": "Cybermalveillance.gouv.fr",
+   "desc": "Assistance et prévention contre les cybermenaces",
+   "url": "https://www.cybermalveillance.gouv.fr"
+  },
+  "cnil": {
+   "label": "CNIL",
+   "desc": "Protection des données personnelles et de la vie privée",
+   "url": "https://www.cnil.fr"
+  },
+  "signal-spam": {
+   "label": "Signal Spam",
+   "desc": "Signaler les e-mails frauduleux ou indésirables",
+   "url": "https://www.signal-spam.fr"
+  },
+  "internet-signalement": {
+   "label": "Internet-signalement.gouv.fr",
+   "desc": "Plateforme officielle de signalement des contenus illicites",
+   "url": "https://www.internet-signalement.gouv.fr"
+  },
+  "clemi": {
+   "label": "CLEMI",
+   "desc": "Éducation aux médias et à l’information",
+   "url": "https://www.clemi.fr"
+  },
+  "arcep": {
+   "label": "ARCEP",
+   "desc": "Régulateur des télécoms : mobile, internet, box",
+   "url": "https://www.arcep.fr"
+  },
+  "etudiant": {
+   "label": "Etudiant.gouv.fr",
+   "desc": "Informations officielles pour les étudiants",
+   "url": "https://www.etudiant.gouv.fr"
+  },
+  "onisep": {
+   "label": "Onisep",
+   "desc": "Orientation, métiers et formations",
+   "url": "https://www.onisep.fr"
+  },
+  "parcoursup": {
+   "label": "Parcoursup",
+   "desc": "Plateforme d’admission dans l’enseignement supérieur",
+   "url": "https://www.parcoursup.gouv.fr"
+  },
+  "info-jeunes": {
+   "label": "Info Jeunes",
+   "desc": "Réseau d’information pour les jeunes : emploi, logement, droits",
+   "url": "https://www.info-jeunes.fr"
+  },
+  "france-travail": {
+   "label": "France Travail",
+   "desc": "Service public de l’emploi",
+   "url": "https://www.francetravail.fr"
+  },
+  "fil-sante-jeunes": {
+   "label": "Fil Santé Jeunes",
+   "desc": "Écoute et information pour les jeunes sur la santé et le bien-être",
+   "url": "https://www.filsantejeunes.com"
+  },
+  "mangerbouger": {
+   "label": "Manger Bouger",
+   "desc": "Repères officiels sur l’alimentation",
+   "url": "https://www.mangerbouger.fr"
+  },
+  "anses": {
+   "label": "Anses",
+   "desc": "Sécurité sanitaire : alimentation, air intérieur, produits",
+   "url": "https://www.anses.fr"
+  },
+  "inrs": {
+   "label": "INRS",
+   "desc": "Prévention et ergonomie du poste de travail",
+   "url": "https://www.inrs.fr"
+  }
+ },
+ "articles": {
+  "1": [
+   "ademe",
+   "energie-info"
+  ],
+  "2": [
+   "mesquestionsdargent",
+   "economie-gouv"
+  ],
+  "3": [
+   "ademe",
+   "ecologie"
+  ],
+  "4": [
+   "cnil",
+   "cybermalveillance"
+  ],
+  "5": [
+   "etudiant",
+   "onisep"
+  ],
+  "6": [
+   "longue-vie",
+   "consignes-tri"
+  ],
+  "7": [
+   "dgccrf",
+   "inc"
+  ],
+  "8": [
+   "cnil",
+   "cybermalveillance"
+  ],
+  "9": [
+   "inrs",
+   "etudiant"
+  ],
+  "10": [
+   "mesquestionsdargent",
+   "dgccrf"
+  ],
+  "11": [
+   "etudiant",
+   "onisep"
+  ],
+  "12": [
+   "longue-vie",
+   "ademe"
+  ],
+  "13": [
+   "cnil",
+   "cybermalveillance"
+  ],
+  "14": [
+   "info-jeunes",
+   "france-travail"
+  ],
+  "15": [
+   "cybermalveillance",
+   "signal-spam",
+   "internet-signalement"
+  ],
+  "16": [
+   "mangerbouger",
+   "ademe"
+  ],
+  "17": [
+   "ademe",
+   "anses"
+  ],
+  "18": [
+   "mesquestionsdargent",
+   "dgccrf"
+  ],
+  "19": [
+   "etudiant",
+   "onisep"
+  ],
+  "20": [
+   "clemi",
+   "cybermalveillance"
+  ],
+  "21": [
+   "inc",
+   "dgccrf"
+  ],
+  "22": [
+   "info-jeunes",
+   "france-travail"
+  ],
+  "23": [
+   "cnil",
+   "clemi"
+  ],
+  "24": [
+   "consignes-tri",
+   "ademe"
+  ],
+  "25": [
+   "etudiant",
+   "onisep"
+  ],
+  "26": [
+   "service-public"
+  ],
+  "27": [
+   "cnil",
+   "cybermalveillance"
+  ],
+  "28": [
+   "dgccrf",
+   "inc"
+  ],
+  "29": [
+   "etudiant",
+   "onisep"
+  ],
+  "30": [
+   "mangerbouger",
+   "anses"
+  ],
+  "31": [
+   "mesquestionsdargent",
+   "economie-gouv"
+  ],
+  "32": [
+   "service-public",
+   "amf",
+   "mesquestionsdargent"
+  ],
+  "33": [
+   "cnil",
+   "cybermalveillance"
+  ],
+  "34": [
+   "cybermalveillance",
+   "signal-spam",
+   "internet-signalement"
+  ],
+  "35": [
+   "service-public",
+   "info-jeunes",
+   "france-travail"
+  ],
+  "36": [
+   "france-travail",
+   "info-jeunes"
+  ],
+  "37": [
+   "france-travail",
+   "info-jeunes"
+  ],
+  "38": [
+   "ademe",
+   "energie-info"
+  ],
+  "39": [
+   "mangerbouger",
+   "ademe"
+  ],
+  "40": [
+   "ademe",
+   "ecologie"
+  ],
+  "41": [
+   "etudiant",
+   "fil-sante-jeunes"
+  ],
+  "42": [
+   "dgccrf",
+   "inc"
+  ],
+  "43": [
+   "dgccrf",
+   "inc"
+  ],
+  "44": [
+   "etudiant",
+   "service-public",
+   "mesquestionsdargent"
+  ],
+  "45": [
+   "cnil",
+   "cybermalveillance"
+  ],
+  "46": [
+   "cnil",
+   "clemi"
+  ],
+  "47": [
+   "etudiant",
+   "onisep"
+  ],
+  "48": [
+   "onisep",
+   "parcoursup",
+   "etudiant"
+  ],
+  "49": [
+   "info-jeunes",
+   "france-travail",
+   "cnil"
+  ],
+  "50": [
+   "anses",
+   "ademe"
+  ],
+  "51": [
+   "ademe",
+   "consignes-tri"
+  ],
+  "52": [
+   "anses",
+   "mangerbouger"
+  ],
+  "53": [
+   "etudiant",
+   "onisep"
+  ],
+  "54": [
+   "etudiant",
+   "onisep"
+  ],
+  "55": [
+   "mesquestionsdargent",
+   "dgccrf"
+  ],
+  "56": [
+   "dgccrf",
+   "inc",
+   "longue-vie"
+  ],
+  "57": [
+   "dgccrf",
+   "cybermalveillance",
+   "inc"
+  ],
+  "58": [
+   "service-public",
+   "info-jeunes",
+   "onisep"
+  ],
+  "59": [
+   "anses",
+   "ademe"
+  ],
+  "60": [
+   "mangerbouger",
+   "anses"
+  ],
+  "61": [
+   "energie-info",
+   "ademe",
+   "service-public"
+  ],
+  "62": [
+   "energie-info",
+   "ademe"
+  ],
+  "63": [
+   "arcep",
+   "inc",
+   "dgccrf"
+  ],
+  "64": [
+   "arcep",
+   "inc",
+   "dgccrf"
+  ],
+  "65": [
+   "service-public",
+   "abe-infoservice",
+   "dgccrf"
+  ],
+  "66": [
+   "mesquestionsdargent",
+   "abe-infoservice",
+   "service-public"
+  ],
+  "67": [
+   "mesquestionsdargent",
+   "abe-infoservice"
+  ],
+  "68": [
+   "mesquestionsdargent",
+   "amf",
+   "service-public"
+  ],
+  "69": [
+   "mesquestionsdargent",
+   "service-public",
+   "abe-infoservice"
+  ],
+  "70": [
+   "cybermalveillance",
+   "cnil"
+  ],
+  "71": [
+   "arcep",
+   "inc"
+  ],
+  "72": [
+   "energie-info",
+   "service-public",
+   "dgccrf"
+  ]
+ }
+}

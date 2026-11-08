@@ -76,3 +76,7 @@ footer a:hover{color:var(--mint)}
 .toc ol{margin:0;padding-left:20px}
 .toc li{margin:3px 0}
 .page h2{scroll-margin-top:84px}
+.sources{margin:30px 0 0;padding:18px 20px;background:#fff;border:1px solid var(--line);border-radius:14px;max-width:68ch}
+.sources h2{margin:0 0 6px;font-size:1.1rem}
+.sources ul{margin:10px 0 0;padding-left:20px}
+.sources li{margin:6px 0;font-size:.95rem}

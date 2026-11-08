@@ -88,6 +88,21 @@ const tocFor = body => {
   return `<nav class="toc" aria-label="Sommaire"><strong>Sommaire</strong><ol>${heads.map(h => `<li><a href="#${anchor(h)}">${esc(h)}</a></li>`).join("")}</ol></nav>`;
 };
 
+// Sources officielles : data/sources.json (catalogue d'organismes + liste par article). Modifiable à la main.
+let SOURCES = { catalog: {}, articles: {} };
+try { SOURCES = JSON.parse(fs.readFileSync(path.join(ROOT, "data", "sources.json"), "utf8")); } catch (e) { /* facultatif */ }
+const sourcesFor = a => {
+  const keys = (SOURCES.articles[String(a.id)] || []).filter(k => SOURCES.catalog[k]);
+  if (!keys.length) return "";
+  return `<section class="sources" aria-labelledby="sources-title">
+<h2 id="sources-title">Pour vérifier et aller plus loin</h2>
+<p class="meta">Organismes officiels et sites de référence sur ce sujet. Les informations évoluent : vérifie toujours les règles en vigueur.</p>
+<ul>
+${keys.map(k => { const s = SOURCES.catalog[k]; return `<li><a href="${esc(s.url)}" target="_blank" rel="noopener noreferrer">${esc(s.label)}</a> — ${esc(s.desc)}</li>`; }).join("\n")}
+</ul>
+</section>`;
+};
+
 // Corps de l'article. Avec withAd, un emplacement publicitaire est inséré au milieu, juste avant un sous-titre
 // (jamais collé à un titre ni en tout début d'article).
 function renderBody(body, withAd = false) {
@@ -197,6 +212,7 @@ ${tocFor(a.body)}
 <article class="article-body">
 ${renderBody(a.body, true)}
 </article>
+${sourcesFor(a)}
 <div class="share">
 <button class="btn btn-ghost" id="copy" type="button">🔗 Copier le lien</button>
 <button class="btn btn-ghost" id="share" type="button" hidden>↗ Partager</button>
