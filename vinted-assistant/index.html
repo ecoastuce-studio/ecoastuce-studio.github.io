@@ -29,7 +29,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}
 <main>
 <div class="notice"><b>Transparence :</b> outil indépendant, non affilié à Vinted. Il ne se connecte pas à ton compte, ne publie aucune annonce et ne récupère aucun identifiant. Utilise-le pour suivre la vente de tes propres biens. Respecte les conditions de la plateforme et demande à ton parent de t'accompagner pour toute question de compte, paiement ou activité professionnelle.</div>
 <nav aria-label="Navigation">
-<button class="active" data-view="home">Vue d'ensemble</button><button data-view="inventory">Inventaire</button><button data-view="orders">Ventes & colis</button><button data-view="studio">Studio annonce</button><button data-view="tools">Outils</button><button data-view="backup">Sauvegarde</button>
+<button class="active" data-view="home">Vue d'ensemble</button><button data-view="inventory">Inventaire</button><button data-view="orders">Ventes & colis</button><button data-view="studio">Studio annonce</button><button data-view="ai">Assistant IA</button><button data-view="tools">Outils</button><button data-view="backup">Sauvegarde</button>
 </nav>
 <section id="home" class="view active">
 <div class="stats">
@@ -100,6 +100,26 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}
 <div class="check"><span>Prix comparé à des articles réellement similaires</span><span class="pill">À vérifier</span></div>
 </div></div>
 </section>
+<section id="ai" class="view">
+<div class="panel">
+<h2>Assistant IA — rédaction et analyse photo</h2>
+<p class="muted">L'assistant peut t'aider à décrire ce qui est visible, améliorer une annonce et réfléchir à un prix à partir de comparaisons que tu fournis. Il ne vérifie ni l'authenticité, ni les prix réellement vendus, et ne publie rien sur Vinted.</p>
+<div class="field"><label>Adresse du service IA sécurisé (fournie après déploiement)</label><input id="aiEndpoint" type="url" placeholder="https://ton-service.workers.dev"></div>
+<div class="actions"><button class="btn ghost" onclick="saveAIEndpoint()">Enregistrer l'adresse du service</button><span id="aiStatus" class="muted">Service IA non configuré</span></div>
+<div class="field" style="margin-top:14px"><label>Que veux-tu faire ?</label><select id="aiMode"><option value="chat">Poser une question à l'assistant</option><option value="listing">Améliorer une annonce</option><option value="photo">Analyser une photo de vêtement</option><option value="price">Étudier un prix avec des comparables</option></select></div>
+<div class="field"><label>Informations utiles (article, marque si connue, taille, état réel, défauts, budget/prix comparables…)</label><textarea id="aiMessage" maxlength="5000" placeholder="Décris ton article ou pose ta question. N'ajoute aucune donnée personnelle."></textarea></div>
+<div class="field"><label>Photo facultative pour l'analyse visuelle (JPG, PNG ou WEBP, 3 Mo maximum)</label><input id="aiPhoto" type="file" accept="image/jpeg,image/png,image/webp"></div>
+<div class="actions"><button class="btn primary" id="aiSend" onclick="askAI()">Demander à l'IA</button><button class="btn" onclick="clearAI()">Effacer</button></div>
+<div id="aiResult" class="mini hidden" style="margin-top:14px;white-space:pre-wrap"></div>
+<p class="muted" style="margin-top:12px">La photo et le texte seront envoyés au service IA que tu configures. N'envoie pas de visage, d'adresse, d'étiquette contenant des données personnelles, ni d'informations d'acheteurs. Demande à ton parent de superviser la création et la facturation du compte API.</p>
+</div>
+<div class="panel"><h2>Ce que l'IA peut faire</h2><div class="cards">
+<div class="mini"><strong>✍️ Annonce améliorée</strong><small>Titre clair, description structurée et informations manquantes à vérifier.</small></div>
+<div class="mini"><strong>📷 Lecture visuelle</strong><small>Couleur, type de vêtement, détails visibles et qualité de la photo — sans inventer marque ou matière.</small></div>
+<div class="mini"><strong>💶 Aide au prix</strong><small>Analyse indicative à partir de prix comparables que tu saisis, sans prétendre connaître les ventes réelles.</small></div>
+<div class="mini"><strong>💬 Conseils</strong><small>Réponses aux questions sur la préparation, la présentation et le suivi de tes propres articles.</small></div>
+</div></div>
+</section>
 <section id="tools" class="view">
 <div class="panel"><h2>Calculateur de montant récupéré</h2><p class="muted">Pour comprendre ce qu'il te reste après les frais éventuels. Renseigne uniquement les frais qui te concernent réellement.</p>
 <div class="formgrid">
@@ -150,11 +170,32 @@ function generateAd(){const name=$('aName').value.trim();if(!name){alert('Indiqu
 function clearAd(){['aName','aBrand','aSize','aColor','aPrice','aDetails','adOutput'].forEach(id=>$(id).value='')}
 async function copyAd(){if(!$('adOutput').value){alert('Génère d’abord un brouillon.');return}try{await navigator.clipboard.writeText($('adOutput').value);alert('Brouillon copié.')}catch(e){$('adOutput').select();document.execCommand('copy');alert('Sélectionne et copie le texte.')}}
 function sendAdToInventory(){if(!$('aName').value.trim()){alert('Indique au moins le nom de l’article.');return}openView('inventory');openNewItem();$('fName').value=$('aName').value;$('fBrand').value=$('aBrand').value;$('fSize').value=$('aSize').value;$('fCondition').value=$('aCondition').value;$('fPrice').value=$('aPrice').value;$('fNotes').value=[$('aColor').value,$('aDetails').value].filter(Boolean).join(' — ')}
+const AI_ENDPOINT_KEY='va_ai_endpoint';
+function getAIEndpoint(){return localStorage.getItem(AI_ENDPOINT_KEY)||''}
+function saveAIEndpoint(){const v=$('aiEndpoint').value.trim().replace(/\/$/,'');if(v&&!/^https:\/\//i.test(v)){alert('Utilise une adresse HTTPS.');return}if(v)localStorage.setItem(AI_ENDPOINT_KEY,v);else localStorage.removeItem(AI_ENDPOINT_KEY);updateAIStatus();alert('Adresse enregistrée sur cet appareil.')}
+function updateAIStatus(){const ep=getAIEndpoint();$('aiEndpoint').value=ep;$('aiStatus').textContent=ep?'Service configuré — prêt à tester':'Service IA non configuré';}
+function clearAI(){$('aiMessage').value='';$('aiPhoto').value='';$('aiResult').textContent='';$('aiResult').classList.add('hidden')}
+function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(r.result);r.onerror=reject;r.readAsDataURL(file)})}
+async function askAI(){
+ const endpoint=getAIEndpoint();if(!endpoint){alert("Le service IA n'est pas encore déployé. L'adresse sera à ajouter ici après la configuration du serveur.");return}
+ const message=$('aiMessage').value.trim(),mode=$('aiMode').value,file=$('aiPhoto').files[0];
+ if(!message&&!file){alert('Ajoute une question, une description ou une photo.');return}
+ if(file&&(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>3*1024*1024)){alert('Choisis une image JPG, PNG ou WEBP de 3 Mo maximum.');return}
+ const btn=$('aiSend'),out=$('aiResult');btn.disabled=true;btn.textContent='Analyse en cours…';out.classList.remove('hidden');out.textContent='L’assistant prépare sa réponse…';
+ try{
+  const imageData=file?await fileToDataURL(file):null;
+  const response=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({mode,message,context:{source:'Vinted Assistant',language:'fr'},imageData})});
+  const data=await response.json().catch(()=>({}));
+  if(!response.ok)throw new Error(data.error||'Le service IA a répondu avec une erreur.');
+  out.textContent=data.answer||'Aucune réponse reçue.';
+ }catch(e){out.textContent='Impossible de joindre le service IA : '+e.message+' Vérifie que le serveur est déployé et que son adresse est correcte.'}
+ finally{btn.disabled=false;btn.textContent='Demander à l’IA'}
+}
 function calcNet(){const v=['calcSale','calcFees','calcPack','calcOther'].map(id=>Number($(id).value)||0);$('calcResult').textContent=money(v[0]-v[1]-v[2]-v[3])}
 function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});download(blob,'vinted-assistant-sauvegarde.json')}
 function exportCSV(){const rows=[['Nom','Catégorie','Taille','État','Prix affiché','Statut','Marque','Notes'],...db.items.map(x=>[x.name,x.category,x.size,x.condition,x.price,x.status,x.brand,x.notes])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'inventaire-vinted-assistant.csv')}
 function download(blob,name){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
 function importBackup(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.items)||!Array.isArray(d.sales))throw Error();if(!confirm('Remplacer les données actuelles par cette sauvegarde ?'))return;db=d;save();alert('Sauvegarde importée.')}catch(err){alert('Fichier invalide ou incompatible.')}};r.readAsText(file);e.target.value=''}
 function resetAll(){if(!confirm('Effacer toutes les données enregistrées dans ce navigateur ? Cette action est irréversible.'))return;db={items:[],sales:[]};save()}
-renderAll();calcNet();
+renderAll();calcNet();updateAIStatus();
 </script></body></html>
