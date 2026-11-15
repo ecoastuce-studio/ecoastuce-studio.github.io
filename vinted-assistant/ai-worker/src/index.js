@@ -1,5 +1,5 @@
 const ALLOWED_ORIGIN = "https://ecoastuce-studio.github.io";
-const MAX_BODY_BYTES = 4 * 1024 * 1024;
+const MAX_BODY_BYTES = 4.5 * 1024 * 1024;
 
 function cors(origin) {
   return {
@@ -53,7 +53,7 @@ export default {
     const message = typeof body.message === "string" ? body.message.slice(0, 5000) : "";
     const imageData = typeof body.imageData === "string" ? body.imageData : "";
     if (!message && !imageData) return json({ error: "Ajoute une question ou une image." }, 400, origin);
-    if (imageData && (!/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(imageData) || imageData.length > 3_800_000)) {
+    if (imageData && (!/^data:image\/(jpeg|png|webp);base64,[A-Za-z0-9+/=]+$/.test(imageData) || imageData.length > 4_300_000)) {
       return json({ error: "Image invalide ou trop volumineuse. Utilise un JPG, PNG ou WEBP de moins de 3 Mo." }, 400, origin);
     }
     const content = [{ type: "input_text", text: message || "Analyse cette photo et donne des conseils utiles." }];
