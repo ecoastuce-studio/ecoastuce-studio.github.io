@@ -53,7 +53,7 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}
 <div class="field"><label>Nom de l'article *</label><input id="fName" maxlength="90" placeholder="Ex. Sweat bleu marine"></div>
 <div class="field"><label>Catégorie</label><select id="fCategory"><option>Vêtement</option><option>Chaussures</option><option>Accessoire</option><option>Maison</option><option>Loisirs</option><option>Autre</option></select></div>
 <div class="field"><label>Taille / référence</label><input id="fSize" maxlength="40" placeholder="Ex. 14 ans, M"></div>
-<div class="field"><label>État réel</label><select id="fCondition"><option>Neuf avec étiquette</option><option>Très bon état</option><option>Bon état</option><option>État satisfaisant</option></select></div>
+<div class="field"><label>État réel</label><select id="fCondition"><option>À préciser</option><option>Neuf avec étiquette</option><option>Très bon état</option><option>Bon état</option><option>État satisfaisant</option></select></div>
 <div class="field"><label>Prix affiché souhaité (€)</label><input id="fPrice" type="number" min="0" step=".01" placeholder="12"></div>
 <div class="field"><label>Statut</label><select id="fStatus"><option>À préparer</option><option>En ligne</option><option>Réservé</option><option>Vendu</option><option>Retiré</option></select></div>
 </div>
@@ -145,7 +145,16 @@ footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}
 </main>
 <script>
 const KEY='va_v2_data';let db={items:[],sales:[]};let pendingPhoto='';
-try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed.items)&&Array.isArray(parsed.sales))db=parsed}}catch(e){}
+const starterData={items:[
+{id:'lacoste-bleu-marine-vendu',name:'Sweat à capuche Lacoste bleu marine',category:'Vêtement',size:'14 ans',condition:'À préciser',price:10,status:'Vendu',brand:'Lacoste',notes:'Vendu 10 €. Colis envoyé. Paiement pas encore reçu.',photo:''},
+{id:'patcha-ibiza-vendu',name:'Sweat à capuche Patcha Ibiza',category:'Vêtement',size:'14 ans',condition:'À préciser',price:15,status:'Vendu',brand:'Patcha Ibiza',notes:'Vendu 15 €. Colis pas encore envoyé ; paiement pas encore confirmé.',photo:''},
+{id:'project-x-paris-noir-en-ligne',name:'Sweat Project X Paris noir',category:'Vêtement',size:'14 ans',condition:'À préciser',price:10,status:'En ligne',brand:'Project X Paris',notes:'Annonce publiée à 10 €.',photo:''},
+{id:'lacoste-noir-en-ligne',name:'Sweat à capuche Lacoste noir',category:'Vêtement',size:'14 ans',condition:'À préciser',price:0,status:'En ligne',brand:'Lacoste',notes:'Annonce publiée. Prix à renseigner.',photo:''}
+],sales:[
+{id:'vente-lacoste-bleu-marine',itemId:'lacoste-bleu-marine-vendu',name:'Sweat à capuche Lacoste bleu marine',amount:0,fees:0,pack:0,date:'',ship:'Déposé / envoyé',note:'Prix de vente : 10 €. Colis envoyé ; paiement pas encore reçu.'},
+{id:'vente-patcha-ibiza',itemId:'patcha-ibiza-vendu',name:'Sweat à capuche Patcha Ibiza',amount:0,fees:0,pack:0,date:'',ship:'À préparer',note:'Prix de vente : 15 €. Colis pas encore envoyé ; paiement pas encore confirmé.'}
+]};
+try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed.items)&&Array.isArray(parsed.sales)){db=parsed;if(!parsed.items.length&&!parsed.sales.length){db=starterData;localStorage.setItem(KEY,JSON.stringify(db))}}}else{db=starterData;localStorage.setItem(KEY,JSON.stringify(db))}}catch(e){}
 const $=id=>document.getElementById(id),money=n=>(Number(n)||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}),safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function save(){try{localStorage.setItem(KEY,JSON.stringify(db));renderAll()}catch(e){alert('Stockage saturé. Exporte une sauvegarde et réduis la taille des photos.');}}
 function openView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='orders')fillSaleSelect();window.scrollTo({top:0,behavior:'smooth'})}
