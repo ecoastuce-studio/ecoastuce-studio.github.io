@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173e2d">
+<title>Vinted Assistant — Espace personnel</title>
+<style>
+:root{--bg:#f4f7f4;--paper:#fff;--ink:#1c2b22;--muted:#65746a;--green:#246747;--dark:#173e2d;--mint:#e7f1ea;--line:#dfe8e1;--amber:#fff4dc;--red:#a43d3d;--shadow:0 8px 28px #183d2810}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 Inter,system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+header{background:linear-gradient(120deg,#173e2d,#286b49);color:white;padding:22px max(18px,calc((100% - 1160px)/2));display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{display:flex;gap:12px;align-items:center}.logo{width:44px;height:44px;border-radius:14px;background:#ffffff20;display:grid;place-items:center;font-size:24px}h1{font-size:21px;line-height:1.2;margin:0}header p{margin:4px 0 0;color:#d8e9dd;font-size:13px}.headright{font-size:12px;color:#d8e9dd}
+main{max-width:1160px;margin:22px auto;padding:0 16px 48px}
+.notice{background:var(--amber);border:1px solid #efdfb7;border-radius:13px;padding:12px 15px;font-size:13px;margin-bottom:16px}
+nav{display:flex;gap:8px;overflow:auto;padding:3px 0 12px;margin-bottom:8px}nav button,.btn{border:1px solid var(--line);background:white;color:var(--ink);padding:10px 13px;border-radius:10px;font:600 13px inherit;cursor:pointer;white-space:nowrap}nav button.active,.btn.primary{background:var(--green);border-color:var(--green);color:#fff}.btn.ghost{background:var(--mint);border-color:var(--mint);color:var(--green)}.btn.danger{color:var(--red);border-color:#edcccc}.btn.small{padding:7px 9px;font-size:12px}
+button:hover{filter:brightness(.97)}button:disabled{opacity:.5;cursor:not-allowed}
+.view{display:none}.view.active{display:block}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:15px}.stat,.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}.stat{padding:16px}.stat .label{font-size:12px;color:var(--muted)}.stat .num{font-size:26px;font-weight:780;margin-top:4px;letter-spacing:-.5px}.stat .hint{font-size:11px;color:var(--muted);margin-top:3px}
+.panel{padding:18px;margin-bottom:14px}.panelhead{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap}h2{font-size:18px;margin:0 0 13px}h3{font-size:15px;margin:0 0 10px}.muted{color:var(--muted);font-size:13px}.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.grow{flex:1}.field{min-width:150px;flex:1;margin-bottom:11px}label{display:block;font-size:12px;color:var(--muted);margin-bottom:5px}input,select,textarea{width:100%;border:1px solid #cfdad1;background:#fff;color:var(--ink);border-radius:9px;padding:10px 11px;font:inherit;font-size:14px}textarea{min-height:88px;resize:vertical}input:focus,select:focus,textarea:focus{outline:2px solid #b7d5c1;border-color:var(--green)}.formgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 12px}.actions{display:flex;gap:8px;flex-wrap:wrap}.hidden{display:none!important}
+.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:13px;min-width:620px}th,td{text-align:left;padding:11px 9px;border-bottom:1px solid var(--line);vertical-align:middle}th{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--muted)}.pill{display:inline-block;background:var(--mint);color:var(--green);padding:4px 8px;border-radius:30px;font-size:11px;font-weight:700}.pill.warn{background:#fff2d7;color:#845b13}.pill.gray{background:#edf0ed;color:#5e6b62}.empty{padding:26px;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:12px}
+.cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.mini{border:1px solid var(--line);border-radius:12px;padding:13px;background:#fff}.mini strong{display:block}.mini small{color:var(--muted)}
+.itemphoto{width:58px;height:58px;object-fit:cover;border-radius:10px;background:var(--mint);display:block}.preview{width:100%;max-height:220px;object-fit:contain;border-radius:12px;background:#f3f6f3;margin:8px 0}
+.split{display:grid;grid-template-columns:1.15fr .85fr;gap:14px}.checklist{display:grid;gap:9px}.check{padding:11px;border:1px solid var(--line);border-radius:10px;background:white;display:flex;justify-content:space-between;gap:10px;align-items:center}.progress{height:8px;background:#e7eee8;border-radius:20px;overflow:hidden}.progress span{display:block;height:100%;background:var(--green);width:0}
+footer{text-align:center;color:var(--muted);font-size:11px;margin-top:24px}
+@media(max-width:800px){.stats{grid-template-columns:repeat(2,1fr)}.split{grid-template-columns:1fr}}
+@media(max-width:560px){header{padding:17px}.headright{display:none}main{padding:0 11px 35px;margin-top:13px}.panel{padding:14px}.formgrid,.cards{grid-template-columns:1fr}.stat{padding:12px}.stat .num{font-size:22px}nav button{padding:9px 11px}}
+</style></head>
+<body>
+<header><div class="brand"><div class="logo">♻</div><div><h1>Vinted Assistant</h1><p>Ton espace organisé pour tes ventes d'occasion</p></div></div><div class="headright">VERSION 2.0 · ESPACE PERSONNEL</div></header>
+<main>
+<div class="notice"><b>Transparence :</b> outil indépendant, non affilié à Vinted. Il ne se connecte pas à ton compte, ne publie aucune annonce et ne récupère aucun identifiant. Utilise-le pour suivre la vente de tes propres biens. Respecte les conditions de la plateforme et demande à ton parent de t'accompagner pour toute question de compte, paiement ou activité professionnelle.</div>
+<nav aria-label="Navigation">
+<button class="active" data-view="home">Vue d'ensemble</button><button data-view="inventory">Inventaire</button><button data-view="orders">Ventes & colis</button><button data-view="studio">Studio annonce</button><button data-view="tools">Outils</button><button data-view="backup">Sauvegarde</button>
+</nav>
+<section id="home" class="view active">
+<div class="stats">
+<div class="stat"><div class="label">Articles enregistrés</div><div class="num" id="statItems">0</div><div class="hint">Dans ton inventaire</div></div>
+<div class="stat"><div class="label">Articles vendus</div><div class="num" id="statSold">0</div><div class="hint">Ventes suivies ici</div></div>
+<div class="stat"><div class="label">Sommes reçues</div><div class="num" id="statRevenue">0,00 €</div><div class="hint">D'après tes saisies</div></div>
+<div class="stat"><div class="label">Colis à traiter</div><div class="num" id="statPending">0</div><div class="hint">À préparer ou déposer</div></div>
+</div>
+<div class="split">
+<div class="panel"><div class="panelhead"><h2>À faire ensuite</h2><button class="btn primary" onclick="openView('inventory');openNewItem()">+ Ajouter</button></div><div id="todo" class="checklist"></div></div>
+<div class="panel"><h2>Ton activité</h2><p class="muted">Progression de tes articles dans ton inventaire.</p><div id="statusSummary"></div><p class="muted" style="margin-top:14px">Les chiffres sont calculés uniquement à partir des informations que tu saisis.</p></div>
+</div>
+<div class="panel"><h2>Raccourcis</h2><div class="actions"><button class="btn ghost" onclick="openView('studio')">✍ Préparer une annonce</button><button class="btn ghost" onclick="openView('orders')">📦 Suivre un colis</button><button class="btn ghost" onclick="openView('tools')">🧮 Calculer un montant</button></div></div>
+</section>
+<section id="inventory" class="view">
+<div class="panel">
+<div class="panelhead"><h2>Mon inventaire</h2><button class="btn primary" onclick="openNewItem()">+ Nouvel article</button></div>
+<div id="itemEditor" class="hidden">
+<h3 id="editorHeading">Ajouter un article</h3><input type="hidden" id="editId">
+<div class="formgrid">
+<div class="field"><label>Nom de l'article *</label><input id="fName" maxlength="90" placeholder="Ex. Sweat bleu marine"></div>
+<div class="field"><label>Catégorie</label><select id="fCategory"><option>Vêtement</option><option>Chaussures</option><option>Accessoire</option><option>Maison</option><option>Loisirs</option><option>Autre</option></select></div>
+<div class="field"><label>Taille / référence</label><input id="fSize" maxlength="40" placeholder="Ex. 14 ans, M"></div>
+<div class="field"><label>État réel</label><select id="fCondition"><option>Neuf avec étiquette</option><option>Très bon état</option><option>Bon état</option><option>État satisfaisant</option></select></div>
+<div class="field"><label>Prix affiché souhaité (€)</label><input id="fPrice" type="number" min="0" step=".01" placeholder="12"></div>
+<div class="field"><label>Statut</label><select id="fStatus"><option>À préparer</option><option>En ligne</option><option>Réservé</option><option>Vendu</option><option>Retiré</option></select></div>
+</div>
+<div class="field"><label>Marque (facultatif, uniquement si authentique)</label><input id="fBrand" maxlength="50" placeholder="Marque réelle"></div>
+<div class="field"><label>Description / défauts / mesures</label><textarea id="fNotes" maxlength="1000" placeholder="Note les défauts, dimensions, matière et informations utiles."></textarea></div>
+<div class="field"><label>Photo facultative (stockée dans ce navigateur)</label><input id="fPhoto" type="file" accept="image/*"><img id="photoPreview" class="preview hidden" alt="Aperçu de la photo"></div>
+<div class="actions"><button class="btn primary" onclick="saveItem()">Enregistrer l'article</button><button class="btn" onclick="closeEditor()">Annuler</button></div><hr style="border:0;border-top:1px solid var(--line);margin:17px 0">
+</div>
+<div class="formgrid"><div class="field"><label>Rechercher</label><input id="itemSearch" placeholder="Nom, marque, taille…" oninput="renderInventory()"></div><div class="field"><label>Filtrer</label><select id="itemFilter" onchange="renderInventory()"><option value="">Tous les statuts</option><option>À préparer</option><option>En ligne</option><option>Réservé</option><option>Vendu</option><option>Retiré</option></select></div></div>
+<div id="inventoryTable"></div>
+</div></section>
+<section id="orders" class="view">
+<div class="panel"><h2>Suivi des ventes et des colis</h2><p class="muted">Saisis le montant réellement reçu et actualise le statut du colis. N'enregistre aucune donnée personnelle de l'acheteur.</p>
+<div id="salesTable"></div>
+<h3 style="margin-top:20px">Ajouter une vente</h3>
+<div class="formgrid">
+<div class="field"><label>Article *</label><select id="saleItem"></select></div>
+<div class="field"><label>Montant réellement reçu (€)</label><input id="saleAmount" type="number" min="0" step=".01" placeholder="10"></div>
+<div class="field"><label>Date</label><input id="saleDate" type="date"></div>
+<div class="field"><label>État du colis</label><select id="saleShip"><option>À préparer</option><option>Prêt à envoyer</option><option>Déposé / envoyé</option><option>Livré</option><option>Annulé</option></select></div>
+</div>
+<div class="field"><label>Note personnelle non sensible</label><input id="saleNote" maxlength="160" placeholder="Ex. colis déposé au relais"></div>
+<button class="btn primary" onclick="addSale()">Enregistrer la vente</button>
+</div></section>
+<section id="studio" class="view">
+<div class="panel"><h2>Studio de rédaction</h2><p class="muted">Prépare un brouillon honnête à relire et à copier manuellement dans la plateforme. Les prix proposés ne sont pas des estimations du marché.</p>
+<div class="formgrid">
+<div class="field"><label>Nom de l'article *</label><input id="aName" placeholder="Ex. Sweat à capuche"></div>
+<div class="field"><label>Marque (si authentique)</label><input id="aBrand" placeholder="Marque"></div>
+<div class="field"><label>Taille</label><input id="aSize" placeholder="Ex. 14 ans"></div>
+<div class="field"><label>Couleur</label><input id="aColor" placeholder="Ex. bleu marine"></div>
+<div class="field"><label>État réel</label><select id="aCondition"><option>Très bon état</option><option>Neuf avec étiquette</option><option>Bon état</option><option>État satisfaisant</option></select></div>
+<div class="field"><label>Prix souhaité (€)</label><input id="aPrice" type="number" min="0" step=".01" placeholder="12"></div>
+</div>
+<div class="field"><label>Défauts et détails à signaler</label><textarea id="aDetails" placeholder="Ex. petite marque visible sur la manche ; mesures disponibles sur demande."></textarea></div>
+<div class="actions"><button class="btn primary" onclick="generateAd()">Générer mon brouillon</button><button class="btn" onclick="clearAd()">Effacer</button></div>
+<div class="field" style="margin-top:14px"><label>Brouillon complet</label><textarea id="adOutput" style="min-height:190px" placeholder="Ton titre et ta description apparaîtront ici."></textarea></div>
+<div class="actions"><button class="btn ghost" onclick="copyAd()">Copier le texte</button><button class="btn" onclick="sendAdToInventory()">Ajouter les infos à l'inventaire</button></div>
+</div>
+<div class="panel"><h2>Checklist photo et annonce</h2><div class="checklist">
+<div class="check"><span>Photo nette, article entier et bien éclairé</span><span class="pill">À vérifier</span></div>
+<div class="check"><span>Marque et taille exactes</span><span class="pill">À vérifier</span></div>
+<div class="check"><span>Défauts montrés et décrits</span><span class="pill">Important</span></div>
+<div class="check"><span>Prix comparé à des articles réellement similaires</span><span class="pill">À vérifier</span></div>
+</div></div>
+</section>
+<section id="tools" class="view">
+<div class="panel"><h2>Calculateur de montant récupéré</h2><p class="muted">Pour comprendre ce qu'il te reste après les frais éventuels. Renseigne uniquement les frais qui te concernent réellement.</p>
+<div class="formgrid">
+<div class="field"><label>Montant de la vente (€)</label><input id="calcSale" type="number" min="0" step=".01" value="12" oninput="calcNet()"></div>
+<div class="field"><label>Frais à ta charge (€)</label><input id="calcFees" type="number" min="0" step=".01" value="0" oninput="calcNet()"></div>
+<div class="field"><label>Emballage (€)</label><input id="calcPack" type="number" min="0" step=".01" value="0" oninput="calcNet()"></div>
+<div class="field"><label>Autres coûts éventuels (€)</label><input id="calcOther" type="number" min="0" step=".01" value="0" oninput="calcNet()"></div>
+</div><div class="stat"><div class="label">Montant estimé restant</div><div class="num" id="calcResult">12,00 €</div><div class="hint">Calcul indicatif à partir de tes entrées.</div></div>
+</div>
+<div class="panel"><h2>Repères pour fixer un prix</h2><ol class="muted"><li>Recherche plusieurs articles identiques ou très proches.</li><li>Compare la marque, le modèle, la taille, l'état et les photos.</li><li>Regarde les prix affichés, sans les confondre avec les prix réellement vendus.</li><li>Décris honnêtement l'état et ne promets pas une vente rapide.</li></ol></div>
+</section>
+<section id="backup" class="view">
+<div class="panel"><h2>Sauvegarde et confidentialité</h2><p class="muted">Les données sont enregistrées dans le stockage local de ce navigateur. Elles ne se synchronisent pas automatiquement entre ton téléphone et ton ordinateur.</p>
+<div class="actions"><button class="btn primary" onclick="exportBackup()">Exporter une sauvegarde JSON</button><label class="btn" style="display:inline-flex;align-items:center;cursor:pointer">Importer une sauvegarde<input type="file" accept=".json,application/json" id="importFile" style="display:none" onchange="importBackup(event)"></label><button class="btn ghost" onclick="exportCSV()">Exporter l'inventaire CSV</button></div>
+<div class="notice" style="margin-top:15px">Garde une copie de ta sauvegarde dans un endroit sûr. N'enregistre pas de mot de passe, adresse, coordonnées bancaires ni informations privées d'acheteurs.</div>
+<button class="btn danger" onclick="resetAll()">Effacer toutes les données de cet appareil</button>
+</div>
+<div class="panel"><h2>Limites actuelles</h2><ul class="muted"><li>Pas de connexion ni de publication automatique sur Vinted.</li><li>Pas de synchronisation cloud ou de compte utilisateur.</li><li>Le générateur de texte fonctionne localement avec un modèle de rédaction, pas avec une IA externe.</li><li>Pour une vraie IA en ligne, il faudra créer un service sécurisé et un compte API avec l'aide d'un adulte ; ne colle jamais de clé secrète dans cette page.</li></ul></div>
+</section>
+<footer>Vinted Assistant indépendant · Données conservées localement · Pense à exporter une sauvegarde.</footer>
+</main>
+<script>
+const KEY='va_v2_data';let db={items:[],sales:[]};let pendingPhoto='';
+try{const raw=localStorage.getItem(KEY);if(raw){const parsed=JSON.parse(raw);if(Array.isArray(parsed.items)&&Array.isArray(parsed.sales))db=parsed}}catch(e){}
+const $=id=>document.getElementById(id),money=n=>(Number(n)||0).toLocaleString('fr-FR',{style:'currency',currency:'EUR'}),safe=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function save(){try{localStorage.setItem(KEY,JSON.stringify(db));renderAll()}catch(e){alert('Stockage saturé. Exporte une sauvegarde et réduis la taille des photos.');}}
+function openView(id){document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('nav button').forEach(b=>b.classList.toggle('active',b.dataset.view===id));if(id==='orders')fillSaleSelect();window.scrollTo({top:0,behavior:'smooth'})}
+document.querySelectorAll('nav button').forEach(b=>b.addEventListener('click',()=>openView(b.dataset.view)));
+function openNewItem(){resetEditor();$('itemEditor').classList.remove('hidden');$('editorHeading').textContent='Ajouter un article'}
+function resetEditor(){['editId','fName','fSize','fPrice','fBrand','fNotes','fPhoto'].forEach(id=>$(id).value='');$('fCategory').value='Vêtement';$('fCondition').value='Très bon état';$('fStatus').value='À préparer';pendingPhoto='';$('photoPreview').classList.add('hidden')}
+function closeEditor(){$('itemEditor').classList.add('hidden')}
+$('fPhoto').addEventListener('change',e=>{const file=e.target.files[0];if(!file)return;if(file.size>2*1024*1024){alert('Choisis une image de moins de 2 Mo.');e.target.value='';return}const r=new FileReader();r.onload=()=>{pendingPhoto=r.result;$('photoPreview').src=pendingPhoto;$('photoPreview').classList.remove('hidden')};r.readAsDataURL(file)});
+function saveItem(){const name=$('fName').value.trim();if(!name){alert('Le nom de l’article est obligatoire.');return}const id=$('editId').value||String(Date.now());const old=db.items.find(x=>x.id===id);const obj={id,name,category:$('fCategory').value,size:$('fSize').value.trim(),condition:$('fCondition').value,price:Number($('fPrice').value)||0,status:$('fStatus').value,brand:$('fBrand').value.trim(),notes:$('fNotes').value.trim(),photo:pendingPhoto||(old?.photo||'')};if(old)Object.assign(old,obj);else db.items.unshift(obj);closeEditor();save()}
+function editItem(id){const x=db.items.find(a=>a.id===id);if(!x)return;openView('inventory');$('itemEditor').classList.remove('hidden');$('editorHeading').textContent='Modifier un article';$('editId').value=x.id;$('fName').value=x.name;$('fCategory').value=x.category;$('fSize').value=x.size;$('fCondition').value=x.condition;$('fPrice').value=x.price;$('fStatus').value=x.status;$('fBrand').value=x.brand||'';$('fNotes').value=x.notes||'';pendingPhoto=x.photo||'';if(pendingPhoto){$('photoPreview').src=pendingPhoto;$('photoPreview').classList.remove('hidden')}else $('photoPreview').classList.add('hidden')}
+function deleteItem(id){if(!confirm('Supprimer cet article de ton inventaire ?'))return;db.items=db.items.filter(x=>x.id!==id);save()}
+function renderInventory(){const q=($('itemSearch').value||'').toLowerCase(),f=$('itemFilter').value;const arr=db.items.filter(x=>(!f||x.status===f)&&[x.name,x.brand,x.size,x.category,x.notes].join(' ').toLowerCase().includes(q));if(!arr.length){$('inventoryTable').innerHTML='<div class="empty">Aucun article trouvé. Ajoute un article pour commencer.</div>';return}
+$('inventoryTable').innerHTML='<div class="tablewrap"><table><thead><tr><th>Article</th><th>État</th><th>Prix affiché</th><th>Statut</th><th>Actions</th></tr></thead><tbody>'+arr.map(x=>`<tr><td><div class="row">${x.photo?`<img class="itemphoto" src="${x.photo}" alt="">`:''}<div><b>${safe(x.name)}</b><br><span class="muted">${safe(x.brand)} · ${safe(x.size)} · ${safe(x.category)}</span></div></div></td><td>${safe(x.condition)}</td><td>${money(x.price)}</td><td><span class="pill ${x.status==='Vendu'?'gray':x.status==='À préparer'?'warn':''}">${safe(x.status)}</span></td><td><div class="actions"><button class="btn small" onclick="editItem('${x.id}')">Modifier</button><button class="btn small danger" onclick="deleteItem('${x.id}')">Supprimer</button></div></td></tr>`).join('')+'</tbody></table></div>'}
+function fillSaleSelect(){const available=db.items.filter(x=>x.status!=='Vendu');$('saleItem').innerHTML=available.map(x=>`<option value="${x.id}">${safe(x.name)}</option>`).join('')||'<option value="">Aucun article disponible</option>'}
+function addSale(){const item=db.items.find(x=>x.id===$('saleItem').value);if(!item){alert('Ajoute d’abord un article non vendu.');return}db.sales.unshift({id:String(Date.now()),itemId:item.id,name:item.name,amount:Number($('saleAmount').value)||0,date:$('saleDate').value,ship:$('saleShip').value,note:$('saleNote').value.trim()});item.status='Vendu';$('saleAmount').value='';$('saleNote').value='';save()}
+function setShip(id,value){const s=db.sales.find(x=>x.id===id);if(s){s.ship=value;save()}}
+function removeSale(id){if(!confirm('Supprimer ce suivi de vente ?'))return;db.sales=db.sales.filter(s=>s.id!==id);save()}
+function renderSales(){if(!db.sales.length){$('salesTable').innerHTML='<div class="empty">Aucune vente enregistrée pour le moment.</div>';return}$('salesTable').innerHTML='<div class="tablewrap"><table><thead><tr><th>Article</th><th>Reçu</th><th>Date</th><th>Colis</th><th>Note</th><th></th></tr></thead><tbody>'+db.sales.map(s=>`<tr><td>${safe(s.name)}</td><td>${money(s.amount)}</td><td>${safe(s.date)}</td><td><select onchange="setShip('${s.id}',this.value)">${['À préparer','Prêt à envoyer','Déposé / envoyé','Livré','Annulé'].map(v=>`<option ${s.ship===v?'selected':''}>${v}</option>`).join('')}</select></td><td>${safe(s.note)}</td><td><button class="btn small danger" onclick="removeSale('${s.id}')">Supprimer</button></td></tr>`).join('')+'</tbody></table></div>'}
+function renderHome(){const sold=db.sales.length,rev=db.sales.reduce((a,s)=>a+(Number(s.amount)||0),0),pending=db.sales.filter(s=>['À préparer','Prêt à envoyer'].includes(s.ship)).length;$('statItems').textContent=db.items.length;$('statSold').textContent=sold;$('statRevenue').textContent=money(rev);$('statPending').textContent=pending;
+const todo=[];db.items.filter(x=>x.status==='À préparer').forEach(x=>todo.push(`<div class="check"><span><b>${safe(x.name)}</b><br><small class="muted">Annonce à préparer</small></span><button class="btn small" onclick="editItem('${x.id}')">Ouvrir</button></div>`));db.sales.filter(s=>['À préparer','Prêt à envoyer'].includes(s.ship)).forEach(s=>todo.push(`<div class="check"><span><b>${safe(s.name)}</b><br><small class="muted">Colis : ${safe(s.ship)}</small></span><button class="btn small" onclick="openView('orders')">Suivre</button></div>`));$('todo').innerHTML=todo.join('')||'<div class="empty">Tout est à jour. Rien à traiter ici.</div>';
+const states=['À préparer','En ligne','Réservé','Vendu','Retiré'];$('statusSummary').innerHTML=states.map(st=>{const n=db.items.filter(x=>x.status===st).length,p=db.items.length?Math.round(n/db.items.length*100):0;return `<div style="margin:10px 0"><div class="row" style="justify-content:space-between"><span class="muted">${st}</span><b>${n}</b></div><div class="progress"><span style="width:${p}%"></span></div></div>`}).join('')}
+function renderAll(){renderHome();renderInventory();renderSales();fillSaleSelect()}
+function generateAd(){const name=$('aName').value.trim();if(!name){alert('Indique le nom de l’article.');return}const brand=$('aBrand').value.trim(),size=$('aSize').value.trim(),color=$('aColor').value.trim(),details=$('aDetails').value.trim(),price=$('aPrice').value;const title=[brand,name,size].filter(Boolean).join(' ');let lines=[name,brand?'Marque : '+brand:'',size?'Taille : '+size:'',color?'Couleur : '+color:'','État : '+$('aCondition').value,details?'Détails / défauts : '+details:'','',price?'Prix souhaité : '+money(price):'Prix : à définir','','Article décrit au mieux selon son état réel. N’hésite pas à me contacter pour une question.'];$('adOutput').value='TITRE : '+title+'\n\n'+lines.filter((v,i)=>v!==''||i===6).join('\n')}
+function clearAd(){['aName','aBrand','aSize','aColor','aPrice','aDetails','adOutput'].forEach(id=>$(id).value='')}
+async function copyAd(){if(!$('adOutput').value){alert('Génère d’abord un brouillon.');return}try{await navigator.clipboard.writeText($('adOutput').value);alert('Brouillon copié.')}catch(e){$('adOutput').select();document.execCommand('copy');alert('Sélectionne et copie le texte.')}}
+function sendAdToInventory(){if(!$('aName').value.trim()){alert('Indique au moins le nom de l’article.');return}openView('inventory');openNewItem();$('fName').value=$('aName').value;$('fBrand').value=$('aBrand').value;$('fSize').value=$('aSize').value;$('fCondition').value=$('aCondition').value;$('fPrice').value=$('aPrice').value;$('fNotes').value=[$('aColor').value,$('aDetails').value].filter(Boolean).join(' — ')}
+function calcNet(){const v=['calcSale','calcFees','calcPack','calcOther'].map(id=>Number($(id).value)||0);$('calcResult').textContent=money(v[0]-v[1]-v[2]-v[3])}
+function exportBackup(){const blob=new Blob([JSON.stringify(db,null,2)],{type:'application/json'});download(blob,'vinted-assistant-sauvegarde.json')}
+function exportCSV(){const rows=[['Nom','Catégorie','Taille','État','Prix affiché','Statut','Marque','Notes'],...db.items.map(x=>[x.name,x.category,x.size,x.condition,x.price,x.status,x.brand,x.notes])];const csv=rows.map(r=>r.map(v=>'"'+String(v??'').replace(/"/g,'""')+'"').join(';')).join('\r\n');download(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}),'inventaire-vinted-assistant.csv')}
+function download(blob,name){const a=document.createElement('a'),url=URL.createObjectURL(blob);a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000)}
+function importBackup(e){const file=e.target.files[0];if(!file)return;const r=new FileReader();r.onload=()=>{try{const d=JSON.parse(r.result);if(!Array.isArray(d.items)||!Array.isArray(d.sales))throw Error();if(!confirm('Remplacer les données actuelles par cette sauvegarde ?'))return;db=d;save();alert('Sauvegarde importée.')}catch(err){alert('Fichier invalide ou incompatible.')}};r.readAsText(file);e.target.value=''}
+function resetAll(){if(!confirm('Effacer toutes les données enregistrées dans ce navigateur ? Cette action est irréversible.'))return;db={items:[],sales:[]};save()}
+renderAll();calcNet();
+</script></body></html>
